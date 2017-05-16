@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "484331864978",
+    "firebase_url": "https://ucsc-parking-fe31a.firebaseio.com",
+    "project_id": "ucsc-parking-fe31a",
+    "storage_bucket": "ucsc-parking-fe31a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484331864978:android:24ef098d207c7e03",
+        "android_client_info": {
+          "package_name": "ucsc.cmps121.ucscparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484331864978-prmtmgmukn1j9f2s8m5g5o27ftt9vi9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ucsc.cmps121.ucscparking",
+            "certificate_hash": "3f7ed1f9d81fc73590ac02858bb6507ac3fb0040"
+          }
+        },
+        {
+          "client_id": "484331864978-1mdj9gfb7e04o00pauuga7mbne8savui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMUFhPReDMWKoOESL1rLQJchMit087Yy4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484331864978-1mdj9gfb7e04o00pauuga7mbne8savui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
