@@ -16,8 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenu" />
-        <activity android:name=".AccountPrefs"></activity>
+        <activity
+            android:name=".MainMenu"
+            android:label="Menu" />
+        <activity
+            android:name=".AccountPrefs"
+            android:label="Account Preferences" />
+        <activity
+            android:name=".PreferredLots"
+            android:label="Preferred Lots"/>
+        <activity
+            android:name=".PaymentSettings"
+            android:label="Payment Settings"/>
+        <activity
+            android:name=".PaymentHistory"
+            android:label="Payment History"/>
     </application>
 
 </manifest>
