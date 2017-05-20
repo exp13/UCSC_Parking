@@ -24,13 +24,15 @@
             android:label="Account Preferences" />
         <activity
             android:name=".PreferredLots"
-            android:label="Preferred Lots"/>
+            android:label="Preferred Lots" />
         <activity
             android:name=".PaymentSettings"
-            android:label="Payment Settings"/>
+            android:label="Payment Settings" />
         <activity
             android:name=".PaymentHistory"
-            android:label="Payment History"/>
+            android:label="Payment History" />
+        <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".BaseActivity"></activity>
     </application>
 
 </manifest>
