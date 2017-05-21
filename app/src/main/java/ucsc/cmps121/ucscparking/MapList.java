@@ -85,7 +85,7 @@ public class MapList extends AppCompatActivity {
         mapAdap.notifyDataSetChanged();
     }
 
-    private class MapsElement{
+    public class MapsElement{
 
         public String title;
         public String subtitle;
