@@ -22,4 +22,9 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, MapList.class);
         startActivity(intent);
     }
+
+    public void goCamera(View v) {
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
+    }
 }

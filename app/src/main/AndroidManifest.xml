@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ucsc.cmps121.ucscparking">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +43,11 @@
             android:label="Parking Maps" />
         <activity
             android:name=".ParkingMapView"
-            android:label="Parking Map"></activity>
+            android:label="Parking Map" />
+        <activity
+            android:name=".CameraActivity"
+            android:label="Camera Test">
+        </activity>
     </application>
 
 </manifest>
