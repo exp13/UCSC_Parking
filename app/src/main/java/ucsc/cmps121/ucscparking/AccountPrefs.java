@@ -97,15 +97,15 @@ public class AccountPrefs extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
             LinearLayout newView;
             PrefsElement ele = getItem(position);
 
-            if(convertView == null){
+            if (convertView == null) {
                 newView = new LinearLayout(getContext());
                 LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 vi.inflate(resource, newView, true);
-            }else{
+            } else {
                 newView = (LinearLayout) convertView;
             }
 
@@ -116,6 +116,5 @@ public class AccountPrefs extends AppCompatActivity {
 
             return newView;
         }
-
     }
 }
