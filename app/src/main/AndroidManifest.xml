@@ -31,6 +31,12 @@
         <activity
             android:name=".PaymentHistory"
             android:label="Payment History" />
+        <activity
+            android:name=".MapList"
+            android:label="Parking Map List" />
+        <activity
+            android:name=".ParkingMapView"
+            android:label="Parking Map" />
         <activity android:name=".GoogleSignInActivity" />
         <activity android:name=".BaseActivity"></activity>
     </application>
