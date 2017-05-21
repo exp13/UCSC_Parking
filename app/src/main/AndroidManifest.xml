@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ucsc.cmps121.ucscparking">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,13 +25,19 @@
             android:label="Account Preferences" />
         <activity
             android:name=".PreferredLots"
-            android:label="Preferred Lots"/>
+            android:label="Preferred Lots" />
         <activity
             android:name=".PaymentSettings"
-            android:label="Payment Settings"/>
+            android:label="Payment Settings" />
         <activity
             android:name=".PaymentHistory"
-            android:label="Payment History"/>
+            android:label="Payment History" />
+        <activity
+            android:name=".MapList"
+            android:label="Parking Maps" />
+        <activity
+            android:name=".ParkingMapView"
+            android:label="Parking Map"></activity>
     </application>
 
 </manifest>
