@@ -38,7 +38,8 @@
             android:name=".ParkingMapView"
             android:label="Parking Map" />
         <activity android:name=".GoogleSignInActivity" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".FindLots" android:label="Find Lots"></activity>
     </application>
 
 </manifest>
