@@ -17,4 +17,14 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, AccountPrefs.class);
         startActivity(intent);
     }
+
+    public void goMapList(View v){
+        Intent intent = new Intent(this, MapList.class);
+        startActivity(intent);
+    }
+
+    public void goFindLots(View v){
+        Intent intent = new Intent(this, FindLots.class);
+        startActivity(intent);
+    }
 }
