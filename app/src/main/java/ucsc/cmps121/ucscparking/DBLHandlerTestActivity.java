@@ -36,5 +36,6 @@ public class DBLHandlerTestActivity extends ActionBarActivity {
             String log = "Id: " + accountInfo.getFireBaseid() + " ,Email: " + accountInfo.getEmail();
             Log.d("Account:: ", log);
         }
+        db.getAllAccounts();
     }
 }

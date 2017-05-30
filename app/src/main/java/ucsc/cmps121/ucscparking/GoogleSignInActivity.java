@@ -179,6 +179,9 @@ public class GoogleSignInActivity extends BaseActivity implements
         if (user != null) {
             mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
             mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            DBHandler db = new DBHandler(this);
+            AccountInfo accountInfo = new AccountInfo(user.getUid(), user.getEmail());
+            db.addAccount(accountInfo);
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
