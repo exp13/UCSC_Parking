@@ -23,6 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
@@ -174,7 +176,7 @@ public class GoogleSignInActivity extends BaseActivity implements
                 });
     }
 
-    private void updateUI(FirebaseUser user) {
+    public  void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
             mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
@@ -182,6 +184,13 @@ public class GoogleSignInActivity extends BaseActivity implements
             DBHandler db = new DBHandler(this);
             AccountInfo accountInfo = new AccountInfo(user.getUid(), user.getEmail());
             db.addAccount(accountInfo);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("accounts");
+            myRef.child(user.getUid()).setValue(user.getEmail());
+            /*Intent intent = new Intent(this, MainMenu.class);
+            startActivity(intent);*/
+
+           // myRef.setValue(user.getEmail());
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
