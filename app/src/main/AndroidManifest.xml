@@ -4,10 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
-
-
 
     <application
         android:allowBackup="true"
@@ -46,8 +45,7 @@
             android:label="Parking Map" />
         <activity
             android:name=".CameraActivity"
-            android:label="Camera Test">
-        </activity>
+            android:label="Camera Test"></activity>
     </application>
 
 </manifest>
