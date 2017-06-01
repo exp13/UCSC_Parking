@@ -24,14 +24,19 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        //new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("func", "TestFunc");
+        aMap.put("testValue", "wtf is going on in hya");
+        //aMap.put("name", "Manfred");
+        new ServletPostAsyncTask(this).execute(aMap);
     }
 
     public void goAccountPrefs(View v){
@@ -49,77 +54,9 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        private Context context;
-
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            context = params[0].first;
-            String name = params[0].second;
-
-            try {
-                // Set up the request
-                URL url = new URL("http://ucscparking-1.appspot.com/hello");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-
-                // Build name data request params
-                Map<String, String> nameValuePairs = new HashMap<>();
-                nameValuePairs.put("name", name);
-                String postParams = buildPostDataString(nameValuePairs);
-
-                // Execute HTTP Post
-                OutputStream outputStream = connection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                writer.write(postParams);
-                writer.flush();
-                writer.close();
-                outputStream.close();
-                connection.connect();
-
-                // Read response
-                int responseCode = connection.getResponseCode();
-                StringBuilder response = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-                reader.close();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    return response.toString();
-                }
-                return "Error: " + responseCode + " " + connection.getResponseMessage();
-
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-        }
-
-        private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                if (first) {
-                    first = false;
-                } else {
-                    result.append("&");
-                }
-
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
-
-            return result.toString();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        }
+    @Override
+    public void processFinish(String result){
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
+
 }
