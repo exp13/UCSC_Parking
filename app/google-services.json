@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "464962003576",
-    "project_id": "firebase-ucsc-parking"
+    "project_number": "503673492651",
+    "project_id": "ucscparking-1"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464962003576:android:24ef098d207c7e03",
+        "mobilesdk_app_id": "1:503673492651:android:24ef098d207c7e03",
         "android_client_info": {
           "package_name": "ucsc.cmps121.ucscparking"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464962003576-lnbusi5qger47t4tn6cjji1v2qq4niu3.apps.googleusercontent.com",
+          "client_id": "503673492651-765i6ll64ggmospa1g1jl000tsjgga9h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ucsc.cmps121.ucscparking",
-            "certificate_hash": "f4e4a7c97ada768acfa65d3581c4288f8870d47a"
+            "certificate_hash": "5f12e21a1397df06822f70f2ffccba1b00990a8b"
           }
         },
         {
-          "client_id": "464962003576-lhp9c2613h3biqhv0eb9puc09hr5udn5.apps.googleusercontent.com",
+          "client_id": "503673492651-cidfbq33i6ivfj3ckpp1k1hrvcc6c7ju.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSUsgaW8vi9-6tGNWdZJE5IQlOnC9HjU8"
+          "current_key": "AIzaSyCfOQWi6tznKMzU_yDKGpLzSfYySojUCD0"
         }
       ],
       "services": {
