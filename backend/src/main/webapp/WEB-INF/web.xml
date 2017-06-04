@@ -6,9 +6,17 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MyServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <url-pattern>/_mysupersekretservletpath</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

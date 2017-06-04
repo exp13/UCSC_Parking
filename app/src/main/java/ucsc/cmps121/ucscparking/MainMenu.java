@@ -1,16 +1,42 @@
 package ucsc.cmps121.ucscparking;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
-public class MainMenu extends AppCompatActivity {
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
+public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("func", "SaveUser");
+        aMap.put("userid", "babs");
+        aMap.put("plate", "dabs");
+
+        new ServletPostAsyncTask(this).execute(aMap);
     }
 
     public void goAccountPrefs(View v){
@@ -27,4 +53,10 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void processFinish(String result){
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    }
+
 }
