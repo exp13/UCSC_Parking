@@ -31,11 +31,11 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        //new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
         Map<String, String> aMap = new HashMap<>();
-        aMap.put("func", "TestFunc");
-        aMap.put("testValue", "wtf is going on in hya");
-        //aMap.put("name", "Manfred");
+        aMap.put("func", "SaveUser");
+        aMap.put("userid", "babs");
+        aMap.put("plate", "dabs");
+
         new ServletPostAsyncTask(this).execute(aMap);
     }
 

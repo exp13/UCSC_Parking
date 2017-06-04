@@ -7,6 +7,7 @@
 package ucsc.cmps121.ucscparking.backend;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,12 +32,22 @@ public class MyServlet extends HttpServlet {
         }
 
         static class TestFunc extends FunctionJunction{
-
-            TestFunc(){}
-
             @Override
             public String processRequest(HttpServletRequest req) throws IOException{
                 return ("This is a test: "+req.getParameter("testValue"));
+            }
+        }
+
+        static class SaveUser extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User nU = new User();
+                nU.id = req.getParameter("userid");
+                nU.liPlate = req.getParameter("plate");
+
+                DBHandler.putUser(nU);
+
+                return "Saved "+nU.id;
             }
         }
     }
@@ -58,10 +69,12 @@ public class MyServlet extends HttpServlet {
         }
     }
 
+
     @Entity
     static class User{
         @Id String id;
         String liPlate;
+        ArrayList<LotPref> prefLots;
     }
 
     @Override
@@ -77,21 +90,11 @@ public class MyServlet extends HttpServlet {
 
         Map<String, FunctionJunction> funMap = new HashMap<>();
         funMap.put("TestFunc", new FunctionJunction.TestFunc());
+        funMap.put("SaveUser", new FunctionJunction.SaveUser());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
-        //String name = req.getParameter("name");
         resp.setContentType("text/plain");
-        /*if (name == null) {
-            resp.getWriter().println("Please enter a name");
-        }
-        User nU = new User();
-        nU.id = "testID";
-        nU.liPlate = name;
-        DBHandler.putUser(nU);
-        nU = DBHandler.getUser("testID");
-        resp.getWriter().println("Hello " + nU.liPlate);*/
-
         resp.getWriter().println(myResp);
     }
 }
