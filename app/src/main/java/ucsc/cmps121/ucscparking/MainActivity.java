@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             GoogleSignInAccount acct = result.getSignInAccount();
 
             TextView resultView = (TextView) findViewById(R.id.googleAccountView);
-            resultView.setText("success");
+            resultView.setText(acct.getDisplayName());
 
         } else {
             // Signed out, show unauthenticated UI.
