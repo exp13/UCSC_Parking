@@ -1,35 +1,33 @@
 {
   "project_info": {
-    "project_number": "484331864978",
-    "firebase_url": "https://ucsc-parking-fe31a.firebaseio.com",
-    "project_id": "ucsc-parking-fe31a",
-    "storage_bucket": "ucsc-parking-fe31a.appspot.com"
+    "project_number": "464962003576",
+    "project_id": "firebase-ucsc-parking"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:484331864978:android:24ef098d207c7e03",
+        "mobilesdk_app_id": "1:464962003576:android:24ef098d207c7e03",
         "android_client_info": {
           "package_name": "ucsc.cmps121.ucscparking"
         }
       },
       "oauth_client": [
         {
-          "client_id": "484331864978-prmtmgmukn1j9f2s8m5g5o27ftt9vi9j.apps.googleusercontent.com",
+          "client_id": "464962003576-lnbusi5qger47t4tn6cjji1v2qq4niu3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ucsc.cmps121.ucscparking",
-            "certificate_hash": "3f7ed1f9d81fc73590ac02858bb6507ac3fb0040"
+            "certificate_hash": "f4e4a7c97ada768acfa65d3581c4288f8870d47a"
           }
         },
         {
-          "client_id": "484331864978-1mdj9gfb7e04o00pauuga7mbne8savui.apps.googleusercontent.com",
+          "client_id": "464962003576-lhp9c2613h3biqhv0eb9puc09hr5udn5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDMUFhPReDMWKoOESL1rLQJchMit087Yy4"
+          "current_key": "AIzaSyDSUsgaW8vi9-6tGNWdZJE5IQlOnC9HjU8"
         }
       ],
       "services": {
@@ -37,16 +35,11 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "484331864978-1mdj9gfb7e04o00pauuga7mbne8savui.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2
+          "status": 1
         }
       }
     }
