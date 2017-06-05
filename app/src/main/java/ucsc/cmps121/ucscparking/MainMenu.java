@@ -1,38 +1,37 @@
 package ucsc.cmps121.ucscparking;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MainMenu extends AppCompatActivity  implements View.OnClickListener{
+import javax.net.ssl.HttpsURLConnection;
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
-    private FirebaseAuth mAuth;
-    private GoogleApiClient mGoogleApiClient;
-    private static final int RC_SIGN_IN = 9001;
+public class MainMenu extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        mAuth = FirebaseAuth.getInstance();
-        mStatusTextView = (TextView) findViewById(R.id.textView);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
-        FirebaseUser user = mAuth.getCurrentUser();
-        mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
+
+        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
     public void goAccountPrefs(View v){
@@ -45,57 +44,82 @@ public class MainMenu extends AppCompatActivity  implements View.OnClickListener
         startActivity(intent);
     }
 
-    public void goFindLots(View v){
-        Intent intent = new Intent(this, FindLots.class);
+    public void goCamera(View v) {
+        Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
     }
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-         if (i == R.id.sign_out_button) {
-            signOut();
+
+    class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+        private Context context;
+
+        @Override
+        protected String doInBackground(Pair<Context, String>... params) {
+            context = params[0].first;
+            String name = params[0].second;
+
+            try {
+                // Set up the request
+                URL url = new URL("http://ucscparking-1.appspot.com/hello");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+
+                // Build name data request params
+                Map<String, String> nameValuePairs = new HashMap<>();
+                nameValuePairs.put("name", name);
+                String postParams = buildPostDataString(nameValuePairs);
+
+                // Execute HTTP Post
+                OutputStream outputStream = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(postParams);
+                writer.flush();
+                writer.close();
+                outputStream.close();
+                connection.connect();
+
+                // Read response
+                int responseCode = connection.getResponseCode();
+                StringBuilder response = new StringBuilder();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    return response.toString();
+                }
+                return "Error: " + responseCode + " " + connection.getResponseMessage();
+
+            } catch (IOException e) {
+                return e.getMessage();
+            }
+        }
+
+        private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException {
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                if (first) {
+                    first = false;
+                } else {
+                    result.append("&");
+                }
+
+                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+                result.append("=");
+                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            }
+
+            return result.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         }
     }
-    private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
-
-        // Google sign out
-
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-
-                        updateUI(null);
-                    }
-                });
-    }
-    public  void updateUI(FirebaseUser user) {
-       // hideProgressDialog();
-        if (user != null) {
-            Intent intent = new Intent(this, MainMenu.class);
-            startActivity(intent);
-           /* mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));*/
-            DBHandler db = new DBHandler(this);
-            AccountInfo accountInfo = new AccountInfo(user.getUid(), user.getEmail());
-            db.addAccount(accountInfo);
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("accounts");
-            myRef.child(user.getUid()).setValue(user.getEmail());
-
-            // myRef.setValue(user.getEmail());
-
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
 }
