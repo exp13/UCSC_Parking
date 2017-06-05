@@ -50,6 +50,19 @@ public class MyServlet extends HttpServlet {
                 return "Saved "+nU.id;
             }
         }
+
+        static class CheckUserExists extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User testUser = DBHandler.getUser(req.getParameter("userid"));
+
+                if(testUser != null){
+                    return "true";
+                }
+
+                return "false";
+            }
+        }
     }
 
     private static class DBHandler{
@@ -91,6 +104,7 @@ public class MyServlet extends HttpServlet {
         Map<String, FunctionJunction> funMap = new HashMap<>();
         funMap.put("TestFunc", new FunctionJunction.TestFunc());
         funMap.put("SaveUser", new FunctionJunction.SaveUser());
+        funMap.put("CheckUserExists", new FunctionJunction.CheckUserExists());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 

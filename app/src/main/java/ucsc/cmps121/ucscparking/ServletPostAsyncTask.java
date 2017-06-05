@@ -42,8 +42,8 @@ public class ServletPostAsyncTask extends AsyncTask<Map<String, String>, Void, S
 
         try {
             // Set up the request
-            //URL url = new URL("https://ucscparking-1.appspot.com/_mysupersekretservletpath");
-            URL url = new URL("http://10.0.2.2:8080/_mysupersekretservletpath");
+            URL url = new URL("https://ucscparking-1.appspot.com/_mysupersekretservletpath");
+            //URL url = new URL("http://10.0.2.2:8080/_mysupersekretservletpath");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
