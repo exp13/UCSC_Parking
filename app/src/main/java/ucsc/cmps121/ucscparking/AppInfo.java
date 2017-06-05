@@ -13,6 +13,8 @@ public class AppInfo {
 
     private Context my_context;
 
+    private String userEmail;
+
 
     protected AppInfo() {
 
@@ -21,13 +23,19 @@ public class AppInfo {
     public static AppInfo getInstance(Context context) {
         if(instance == null) {
             instance = new AppInfo();
-            instance.my_context = context;
-            SharedPreferences settings = context.getSharedPreferences("UCSCParking", 0);
+            //instance.my_context = context;
+            //SharedPreferences settings = context.getSharedPreferences("UCSCParking", 0);
         }
         return instance;
     }
 
+    public void setEmail(String e){
+        userEmail = e;
+    }
 
+    public String getEmail(){
+        return userEmail;
+    }
 
 
     // set string method for shared strings

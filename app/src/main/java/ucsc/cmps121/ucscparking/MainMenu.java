@@ -36,11 +36,14 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
     private GoogleApiClient mGoogleApiClient;
 
     private final Context context = this;
+    private AppInfo appInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        appInfo = AppInfo.getInstance(this);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -55,12 +58,9 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        Map<String, String> aMap = new HashMap<>();
-        aMap.put("func", "SaveUser");
-        aMap.put("userid", "babs");
-        aMap.put("plate", "dabs");
+        //Toast.makeText(this, appInfo.getEmail(), Toast.LENGTH_LONG).show();
+        // Test code for backend
 
-        new ServletPostAsyncTask(this).execute(aMap);
     }
 
     public void goAccountPrefs(View v){
@@ -80,7 +80,11 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
 
     @Override
     public void processFinish(String result){
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        /*if(result == "false"){
+            Intent intent = new Intent(this, PreferredLots.class);
+            startActivity(intent);
+        }*/
+        Toast.makeText(this,"heloooooooooooo" , Toast.LENGTH_LONG);
     }
 
     public void sign_out(View v) {
@@ -90,7 +94,6 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
 
                         @Override
                         public void onResult(Status status) {
-                            Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(context, MainActivity.class);
                             startActivity(intent);
                         }
