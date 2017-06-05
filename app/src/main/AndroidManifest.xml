@@ -45,7 +45,7 @@
             android:label="Parking Map" />
         <activity
             android:name=".CameraActivity"
-            android:label="Camera Test"></activity>
+            android:label="Camera Test" />
     </application>
 
 </manifest>
