@@ -13,6 +13,7 @@ public class AppInfo {
 
     private Context my_context;
 
+
     protected AppInfo() {
 
     }

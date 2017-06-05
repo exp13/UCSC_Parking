@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
+       findViewById(R.id.sign_in_button).setOnClickListener(this);
 
 
     }
@@ -70,17 +70,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, 0);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == 0) {
+        if (resultCode == RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+
         }
+
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
