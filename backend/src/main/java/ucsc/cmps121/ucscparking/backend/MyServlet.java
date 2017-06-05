@@ -7,9 +7,13 @@
 package ucsc.cmps121.ucscparking.backend;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.*;
 
+import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.annotation.Entity;
@@ -19,13 +23,55 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class MyServlet extends HttpServlet {
 
+    private static class FunctionJunction{
+
+        FunctionJunction(){}
+
+        public String processRequest(HttpServletRequest req) throws IOException{
+            return "This is not the class you are looking for.";
+        }
+
+        static class TestFunc extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                return ("This is a test: "+req.getParameter("testValue"));
+            }
+        }
+
+        static class SaveUser extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User nU = new User();
+                nU.id = req.getParameter("userid");
+                nU.liPlate = req.getParameter("plate");
+
+                DBHandler.putUser(nU);
+
+                return "Saved "+nU.id;
+            }
+        }
+
+        static class CheckUserExists extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User testUser = DBHandler.getUser(req.getParameter("userid"));
+
+                if(testUser != null){
+                    return "true";
+                }
+
+                return "false";
+            }
+        }
+    }
+
     private static class DBHandler{
         static{
             ObjectifyService.register(User.class);
         }
 
         public static void putUser(User u){
-            ofy().save().entity(u);
+            ofy().save().entity(u).now();
         }
 
         public static User getUser(String id) {
@@ -36,10 +82,12 @@ public class MyServlet extends HttpServlet {
         }
     }
 
+
     @Entity
     static class User{
         @Id String id;
         String liPlate;
+        ArrayList<LotPref> prefLots;
     }
 
     @Override
@@ -52,16 +100,15 @@ public class MyServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        String name = req.getParameter("name");
+
+        Map<String, FunctionJunction> funMap = new HashMap<>();
+        funMap.put("TestFunc", new FunctionJunction.TestFunc());
+        funMap.put("SaveUser", new FunctionJunction.SaveUser());
+        funMap.put("CheckUserExists", new FunctionJunction.CheckUserExists());
+
+        String myResp = funMap.get(req.getParameter("func")).processRequest(req);
+
         resp.setContentType("text/plain");
-        if (name == null) {
-            resp.getWriter().println("Please enter a name");
-        }
-        User nU = new User();
-        nU.id = "testID";
-        nU.liPlate = name;
-        DBHandler.putUser(nU);
-        nU = DBHandler.getUser("testID");
-        resp.getWriter().println("Hello " + nU.liPlate);
+        resp.getWriter().println(myResp);
     }
 }
