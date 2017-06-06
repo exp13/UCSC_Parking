@@ -97,7 +97,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         firstPic = false;
                     }
 
-
                 } else {
                     System.out.println("OCR done goofed");
                     Log.d(TAG, "No Text captured, intent data is null");
@@ -113,7 +112,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void saveButOnClick(View v) {
-
-
+        //For spencer!
     }
 }
