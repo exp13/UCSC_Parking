@@ -1,6 +1,7 @@
 package ucsc.cmps121.ucscparking;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -91,6 +92,8 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
                 lotItem3.contentEquals("Choose a lot...") ||
                 tn.getText() == ""){
             tv.setText("Please choose options for each drop down\nand enter a name.");
+            tn.setHint("Enter name");
+            tn.setHintTextColor(Color.RED);
         }else if((lotItem1 == lotItem2) || (lotItem1 == lotItem3) || (lotItem2 == lotItem3)){
             tv.setText("Please choose 3 different lots.");
         }else{
@@ -110,7 +113,6 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
             lMap.put("lot2", lotItem2);
             lMap.put("lot3", lotItem3);
             new ServletPostAsyncTask(this).execute(lMap);
-
 
         }
     }
