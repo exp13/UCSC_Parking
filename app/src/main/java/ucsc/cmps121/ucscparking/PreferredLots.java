@@ -60,22 +60,18 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
 
     public class PrefsElement{
 
-        private String title;
+        public String title;
         public String subtitle;
         public Intent intent;
 
         PrefsElement(){};
 
         PrefsElement(String t, String s, Intent i){
-            setTitle(t);
+            title = t;
             subtitle = s;
             intent = i;
         }
-    public String getTitle() {
-    return title;
-}public void setTitle(String title) {
-    this.title = title;
-}}
+    }
 
     private class PrefsAdapter extends ArrayAdapter<PreferredLots.PrefsElement> {
 
@@ -104,7 +100,7 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
             TextView t = (TextView) newView.findViewById(R.id.prefListTitle);
             TextView s = (TextView) newView.findViewById(R.id.prefListSubtitle);
 
-            t.setText(ele.getTitle());
+            t.setText(ele.title);
             s.setText(ele.subtitle);
 
             return newView;
@@ -124,17 +120,17 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
             int cursorB = 0;
 
             while (notDone) {
-                p.setTitle("");
+                p.title = "";
                 while (result.charAt(cursorB) != '|') {
                     cursorB++;
                 }
-                p.setTitle(p.getTitle()+result.substring(cursorF, cursorB - 4));
+                p.title += result.substring(cursorF, cursorB - 1);
 
                 cursorF = cursorB;
                 while (result.charAt(cursorB) != ';') {
                     cursorB++;
                 }
-                p.setTitle(p.getTitle()+" : " + result.substring(cursorF + 1, cursorB - 1));
+                p.title += " : " + result.substring(cursorF + 1, cursorB - 1);
 
                 cursorF = cursorB;
                 p.subtitle = "";
@@ -152,12 +148,12 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 prefList.add(p);
 
                 cursorB++;
-                if (cursorB == result.length() - 1) {
+                if(result.charAt(cursorB) == '!'){
                     notDone = false;
                 }
             }
         }else{
-            p.setTitle("No preferences saved");
+            p.title = "No preferences saved";
             p.subtitle = "Please use the add button at the bottom";
 
             prefList.add(p);

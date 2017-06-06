@@ -58,10 +58,6 @@ public class MainActivity extends AppCompatActivity
 
        findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-       Spinner dropdown = (Spinner) findViewById(R.id.spinner1);
-       String[] items = new String[] {"Who", "Goes", "There", "Fam"};
-       ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);
-       dropdown.setAdapter(adapter);
 
     }
 
@@ -156,11 +152,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void processFinish(String result) {
         Intent intent;
-        if (result.contentEquals("false")){
+        if (result.contentEquals("true")){
             intent = new Intent(this, MainMenu.class);
             startActivity(intent);
-        }else if(result.contentEquals("REPLACE THIS WILL FALSE AND ABOVE WITH TRUE LATER")){
-            intent = new Intent(this, PreferredLots.class);
+        }else if(result.contentEquals("false")){
+            intent = new Intent(this, NewUser.class);
             startActivity(intent);
         }else{
             Toast.makeText(this, "salt"+result+"moresalt", Toast.LENGTH_LONG).show();

@@ -144,10 +144,8 @@ public class MyServlet extends HttpServlet {
                         for (int j = 0; j < 3; j++) {
                             resp += lotIndex.get(p.lots[j]) + ",";
                         }
-
-                        resp += "!";
                     }
-
+                    resp += "!";
                 }
 
                 return resp;
