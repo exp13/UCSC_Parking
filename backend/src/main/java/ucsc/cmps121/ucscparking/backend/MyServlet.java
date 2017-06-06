@@ -25,6 +25,22 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class MyServlet extends HttpServlet {
 
+    private static class DBHandler{
+        static{
+            ObjectifyService.register(User.class);
+        }
+
+        public static void putUser(User u){
+            ofy().save().entity(u).now();
+        }
+
+        public static User getUser(String id) {
+            Key<User> uKey = Key.create(User.class, id);
+            User gU = ofy().load().key(uKey).now();
+
+            return gU;
+        }
+    }
 
     private static class FunctionJunction{
 
@@ -83,7 +99,7 @@ public class MyServlet extends HttpServlet {
                 LotPref p = new LotPref();
 
                 p.name = req.getParameter("name");
-                p.time = Time.valueOf(req.getParameter("time"));
+                p.time = req.getParameter("time");
                 p.lots[0] = lotIndex.indexOf(req.getParameter("lot1"));
                 p.lots[1] = lotIndex.indexOf(req.getParameter("lot2"));
                 p.lots[2] = lotIndex.indexOf(req.getParameter("lot3"));
@@ -116,14 +132,14 @@ public class MyServlet extends HttpServlet {
                 String resp = new String();
                 LotPref p;
 
-                if (u.prefLots == null)
+                if (u == null || u.prefLots == null)
                 {
-                    resp = "empty list";
+                    return "empty list";
                 } else {
 
                     for (int i = 0; i < u.prefLots.size(); i++) {
                         p = u.prefLots.get(i);
-                        resp += p.time.toString() + "|";
+                        resp += p.time + "|";
                         resp += p.name + ";";
                         for (int j = 0; j < 3; j++) {
                             resp += lotIndex.get(p.lots[j]) + ",";
@@ -140,22 +156,6 @@ public class MyServlet extends HttpServlet {
 
     }
 
-    private static class DBHandler{
-        static{
-            ObjectifyService.register(User.class);
-        }
-
-        public static void putUser(User u){
-            ofy().save().entity(u).now();
-        }
-
-        public static User getUser(String id) {
-            Key<User> uKey = Key.create(User.class, id);
-            User gU = ofy().load().key(uKey).now();
-
-            return gU;
-        }
-    }
 
     @Entity
     static class User{
