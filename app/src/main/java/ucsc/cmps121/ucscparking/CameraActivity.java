@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.text.Text;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,6 +19,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private static final int RC_OCR_CAPTURE = 9003;
     private static final String TAG = "MainActivity";
 
+    private boolean firstPic;
+    private TextView saveText;
+    private Button saveButton;
     private TextView camT;
 
     @Override
@@ -25,6 +30,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_camera);
 
         camT = (TextView) findViewById(R.id.camText);
+        saveText = (TextView) findViewById(R.id.saveConfirmText);
+        saveButton = (Button) findViewById(R.id.saveBut);
+
+        saveText.setVisibility(View.GONE);
+        saveButton.setVisibility(View.GONE);
+
+        firstPic = true;
 
         findViewById(R.id.camBut).setOnClickListener(this);
     }
@@ -76,6 +88,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
                     camT.setText(text);
                     Log.d(TAG, "Text read: " + text);
+
+                    if (firstPic) {
+                        saveText.setVisibility(View.VISIBLE);
+                        saveButton.setVisibility(View.VISIBLE);
+                        firstPic = false;
+                    }
+
+
                 } else {
                     System.out.println("OCR done goofed");
                     Log.d(TAG, "No Text captured, intent data is null");
@@ -88,5 +108,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void saveButOnClick(View v) {
+       
+
     }
 }

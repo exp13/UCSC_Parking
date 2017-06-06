@@ -103,7 +103,6 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
 
             cMap.put("func", "CreateUser");
             cMap.put("userid", appInfo.getEmail());
-            cMap.put("plate", "1234567");
             new ServletPostAsyncTask(this).execute(cMap);
 
             lMap.put("func", "AddLotPref");
