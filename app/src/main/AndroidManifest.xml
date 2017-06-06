@@ -10,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:launchMode="singleTop"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTop"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -46,7 +46,8 @@
             android:label="Parking Map" />
         <activity
             android:name=".CameraActivity"
-            android:label="Camera Test"></activity>
+            android:label="Camera Test" />
+        <activity android:name=".NewUser"></activity>
     </application>
 
 </manifest>

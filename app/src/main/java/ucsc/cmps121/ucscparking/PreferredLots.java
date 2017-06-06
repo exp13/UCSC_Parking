@@ -13,13 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.prefs.PreferencesFactory;
 
 public class PreferredLots extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse {
 
@@ -127,7 +124,7 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 while (result.charAt(cursorB) != '|') {
                     cursorB++;
                 }
-                p.title += result.substring(cursorF, cursorB - 4);
+                p.title += result.substring(cursorF, cursorB - 1);
 
                 cursorF = cursorB;
                 while (result.charAt(cursorB) != ';') {
@@ -151,7 +148,7 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 prefList.add(p);
 
                 cursorB++;
-                if (cursorB == result.length() - 1) {
+                if(result.charAt(cursorB) == '!'){
                     notDone = false;
                 }
             }
