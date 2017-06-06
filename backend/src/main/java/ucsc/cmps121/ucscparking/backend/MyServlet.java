@@ -23,7 +23,25 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class MyServlet extends HttpServlet {
 
+
     private static class FunctionJunction{
+
+        private static String lotIndex[] = {"empty",
+                                            "North Remote",
+                                            "East Remote",
+                                            "West Remote",
+                                            "Core West",
+                                            "Performing Arts",
+                                            "Kresge College",
+                                            "Stevenson College",
+                                            "Baskin 1",
+                                            "Baskin 2",
+                                            "Rachel Carson College",
+                                            "Oakes College",
+                                            "Merrill College",
+                                            "Porter College",
+                                            "College 10",
+                                            "Hahn Building"};
 
         FunctionJunction(){}
 
@@ -61,6 +79,35 @@ public class MyServlet extends HttpServlet {
                 }
 
                 return "false";
+            }
+        }
+
+        static class GetLots extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                String resp = new String();
+                LotPref p;
+
+                if (u.prefLots == null)
+                {
+                    resp = "empty list";
+                } else {
+
+                    for (int i = 0; i < u.prefLots.size(); i++) {
+                        p = u.prefLots.get(i);
+                        resp += p.time.toString() + "|";
+                        resp += p.name + ";";
+                        for (int j = 0; j < 3; j++) {
+                            resp += lotIndex[p.lots[j]] + ",";
+                        }
+
+                        resp += "!";
+                    }
+
+                }
+
+                return resp;
             }
         }
     }
@@ -105,6 +152,7 @@ public class MyServlet extends HttpServlet {
         funMap.put("TestFunc", new FunctionJunction.TestFunc());
         funMap.put("SaveUser", new FunctionJunction.SaveUser());
         funMap.put("CheckUserExists", new FunctionJunction.CheckUserExists());
+        funMap.put("GetLots", new FunctionJunction.GetLots());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 

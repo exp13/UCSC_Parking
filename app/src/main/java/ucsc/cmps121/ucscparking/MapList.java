@@ -82,6 +82,66 @@ public class MapList extends AppCompatActivity {
         ele.intent = new Intent(this, MapList.class);
         mapsList.add(ele);
 
+        ele = new MapsElement();
+        ele.title = "Hahn Student Services";
+        ele.subtitle = "Financial Aid";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Stevenson College";
+        ele.subtitle = "Lot 109";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Merrill College";
+        ele.subtitle = "Lot 119";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "College 10";
+        ele.subtitle = "Lot 165";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Baskin Engineering";
+        ele.subtitle = "Lot 138";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Baskin Engineering II";
+        ele.subtitle = "Lot 139A";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Kresge College";
+        ele.subtitle = "Lot 143";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Porter College";
+        ele.subtitle = "Lot 125";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Rachel Carson College";
+        ele.subtitle = "Lot 146";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
+        ele = new MapsElement();
+        ele.title = "Oakes College";
+        ele.subtitle = "Lot 162";
+        ele.intent = new Intent(this, MapList.class);
+        mapsList.add(ele);
+
         mapAdap.notifyDataSetChanged();
     }
 
