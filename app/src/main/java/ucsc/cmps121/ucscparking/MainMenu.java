@@ -111,7 +111,7 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        sign_out(findViewById(R.id.signOut));
+
     }
 
     @Override
