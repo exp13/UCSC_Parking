@@ -111,7 +111,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void saveButOnClick(View v) {
-       
+
 
     }
 }
