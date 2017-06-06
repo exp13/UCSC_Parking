@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity
 
        findViewById(R.id.sign_in_button).setOnClickListener(this);
 
+       Spinner dropdown = (Spinner) findViewById(R.id.spinner1);
+       String[] items = new String[] {"Who", "Goes", "There", "Fam"};
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);
+       dropdown.setAdapter(adapter);
 
     }
 
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity
 
                         @Override
                         public void onResult(Status status) {
-                            //Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         }else{
@@ -150,11 +156,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void processFinish(String result) {
         Intent intent;
-        // change if values for testing
         if (result.contentEquals("false")){
             intent = new Intent(this, MainMenu.class);
             startActivity(intent);
-        }else if(result.contentEquals("CHANGE THIS BACK TO FALSE AND ABOVE TO TRUE")){
+        }else if(result.contentEquals("REPLACE THIS WILL FALSE AND ABOVE WITH TRUE LATER")){
             intent = new Intent(this, PreferredLots.class);
             startActivity(intent);
         }else{
