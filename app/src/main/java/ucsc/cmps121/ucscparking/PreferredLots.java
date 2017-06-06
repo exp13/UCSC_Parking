@@ -108,6 +108,11 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
 
     }
 
+    public void onAddClick(View v){
+        Intent intent = new Intent(this, AddPref.class);
+        startActivity(intent);
+    }
+
     @Override
     public void processFinish(String result) {
 
@@ -169,6 +174,8 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
 
                 if(result.charAt(cursorB) == '!'){
                     notDone = false;
+                }else{
+                    cursorF++;
                 }
             }
         }else{

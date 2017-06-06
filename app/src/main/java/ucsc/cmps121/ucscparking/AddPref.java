@@ -1,21 +1,18 @@
 package ucsc.cmps121.ucscparking;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse {
+public class AddPref extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse{
 
     private Spinner timeDrop;
     private Spinner lot1Drop;
@@ -27,11 +24,11 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_user);
+        setContentView(R.layout.activity_add_pref);
 
         appInfo = AppInfo.getInstance(this);
 
-        timeDrop = (Spinner) findViewById(R.id.newTimeSpinner);
+        timeDrop = (Spinner) findViewById(R.id.addTimeSpinner);
         String[] items = new String[] {"Choose a time...",
                 "08:00", "08:15", "08:30", "08:45",
                 "09:00", "09:15", "09:30", "09:45",
@@ -62,12 +59,12 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
                 "Merrill College",
                 "Porter College",
                 "College 10",
-                "Hahn Building",
+                "Hahn Building"
         };
 
-        lot1Drop = (Spinner) findViewById(R.id.newLot1Spinner);
-        lot2Drop = (Spinner) findViewById(R.id.newLot2Spinner);
-        lot3Drop = (Spinner) findViewById(R.id.newLot3Spinner);
+        lot1Drop = (Spinner) findViewById(R.id.addLot1Spinner);
+        lot2Drop = (Spinner) findViewById(R.id.addLot2Spinner);
+        lot3Drop = (Spinner) findViewById(R.id.addLot3Spinner);
         ArrayAdapter<String> lotAdap1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         ArrayAdapter<String> lotAdap2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         ArrayAdapter<String> lotAdap3 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -83,8 +80,8 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
         String lotItem2 = (String) lot2Drop.getSelectedItem();
         String lotItem3 = (String) lot3Drop.getSelectedItem();
 
-        TextView tn = (TextView) findViewById(R.id.newSchNameView);
-        TextView tv = (TextView) findViewById(R.id.newScText);
+        TextView tn = (TextView) findViewById(R.id.addSchNameView);
+        TextView tv = (TextView) findViewById(R.id.addScText);
 
         if(timeItem.contentEquals("Choose a time...") ||
                 lotItem1.contentEquals("Choose a lot...") ||
@@ -92,19 +89,10 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
                 lotItem3.contentEquals("Choose a lot...") ||
                 tn.getText() == ""){
             tv.setText("Please choose options for each drop down\nand enter a name.");
-            tn.setHint("Enter name");
-            tn.setHintTextColor(Color.RED);
-
         }else if((lotItem1 == lotItem2) || (lotItem1 == lotItem3) || (lotItem2 == lotItem3)){
             tv.setText("Please choose 3 different lots.");
         }else{
-            Map<String, String> cMap = new HashMap<>();
             Map<String, String> lMap = new HashMap<>();
-
-            cMap.put("func", "CreateUser");
-            cMap.put("userid", appInfo.getEmail());
-            cMap.put("plate", "1234567");
-            new ServletPostAsyncTask(this).execute(cMap);
 
             lMap.put("func", "AddLotPref");
             lMap.put("userid", appInfo.getEmail());
