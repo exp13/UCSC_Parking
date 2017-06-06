@@ -13,13 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.prefs.PreferencesFactory;
 
 public class PreferredLots extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse {
 
@@ -63,18 +60,22 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
 
     public class PrefsElement{
 
-        public String title;
+        private String title;
         public String subtitle;
         public Intent intent;
 
         PrefsElement(){};
 
         PrefsElement(String t, String s, Intent i){
-            title = t;
+            setTitle(t);
             subtitle = s;
             intent = i;
         }
-    }
+    public String getTitle() {
+    return title;
+}public void setTitle(String title) {
+    this.title = title;
+}}
 
     private class PrefsAdapter extends ArrayAdapter<PreferredLots.PrefsElement> {
 
@@ -103,7 +104,7 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
             TextView t = (TextView) newView.findViewById(R.id.prefListTitle);
             TextView s = (TextView) newView.findViewById(R.id.prefListSubtitle);
 
-            t.setText(ele.title);
+            t.setText(ele.getTitle());
             s.setText(ele.subtitle);
 
             return newView;
@@ -123,17 +124,17 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
             int cursorB = 0;
 
             while (notDone) {
-                p.title = "";
+                p.setTitle("");
                 while (result.charAt(cursorB) != '|') {
                     cursorB++;
                 }
-                p.title += result.substring(cursorF, cursorB - 4);
+                p.setTitle(p.getTitle()+result.substring(cursorF, cursorB - 4));
 
                 cursorF = cursorB;
                 while (result.charAt(cursorB) != ';') {
                     cursorB++;
                 }
-                p.title += " : " + result.substring(cursorF + 1, cursorB - 1);
+                p.setTitle(p.getTitle()+" : " + result.substring(cursorF + 1, cursorB - 1));
 
                 cursorF = cursorB;
                 p.subtitle = "";
@@ -156,7 +157,7 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 }
             }
         }else{
-            p.title = "No preferences saved";
+            p.setTitle("No preferences saved");
             p.subtitle = "Please use the add button at the bottom";
 
             prefList.add(p);

@@ -157,7 +157,6 @@ public class MyServlet extends HttpServlet {
         }
     }
 
-
     @Entity
     static class User{
         @Id String id;
