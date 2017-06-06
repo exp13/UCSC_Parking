@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
 
                         @Override
                         public void onResult(Status status) {
-                            Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         }else{
@@ -150,10 +150,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void processFinish(String result) {
         Intent intent;
-        if (result.contentEquals("true")){
+        // change if values for testing
+        if (result.contentEquals("false")){
             intent = new Intent(this, MainMenu.class);
             startActivity(intent);
-        }else if(result.contentEquals("false")){
+        }else if(result.contentEquals("CHANGE THIS BACK TO FALSE AND ABOVE TO TRUE")){
             intent = new Intent(this, PreferredLots.class);
             startActivity(intent);
         }else{
