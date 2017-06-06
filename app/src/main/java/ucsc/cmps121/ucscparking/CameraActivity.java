@@ -23,12 +23,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private TextView saveText;
     private Button saveButton;
     private TextView camT;
+    private TextView licenseT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        licenseT = (TextView) findViewById(R.id.licenseText);
         camT = (TextView) findViewById(R.id.camText);
         saveText = (TextView) findViewById(R.id.saveConfirmText);
         saveButton = (Button) findViewById(R.id.saveBut);
@@ -86,7 +88,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     String text = data.getStringExtra(OcrCaptureActivity.TextBlockObject);
-                    camT.setText(text);
+                    licenseT.setText(text);
                     Log.d(TAG, "Text read: " + text);
 
                     if (firstPic) {
