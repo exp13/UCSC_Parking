@@ -104,6 +104,9 @@ public class MyServlet extends HttpServlet {
                 p.lots[1] = lotIndex.indexOf(req.getParameter("lot2"));
                 p.lots[2] = lotIndex.indexOf(req.getParameter("lot3"));
 
+                if(u.prefLots == null) {
+                    u.prefLots = new ArrayList<>();
+                }
                 u.prefLots.add(p);
 
                 DBHandler.putUser(u);
