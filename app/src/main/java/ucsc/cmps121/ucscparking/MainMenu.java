@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -62,7 +63,8 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
 
         //Toast.makeText(this, appInfo.getEmail(), Toast.LENGTH_LONG).show();
         // Test code for backend
-
+        TextView email = (TextView)findViewById(R.id.textView6);
+        email.setText(appInfo.getEmail());
 
     }
 
