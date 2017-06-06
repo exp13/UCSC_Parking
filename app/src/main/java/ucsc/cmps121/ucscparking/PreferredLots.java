@@ -116,32 +116,50 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
 
         PrefsElement p = new PrefsElement();
 
-        boolean notDone = true;
-        int cursorF = 0;
-        int cursorB = 0;
+        if(!result.contentEquals("empty list")) {
 
-        while(notDone){
-            p.title = "";
-            while(result.charAt(cursorB)!='|'){cursorB++;}
-            p.title  += result.substring(cursorF, cursorB-4);
+            boolean notDone = true;
+            int cursorF = 0;
+            int cursorB = 0;
 
-            cursorF = cursorB;
-            while(result.charAt(cursorB)!=';'){cursorB++;}
-            p.title += " : " + result.substring(cursorF+1, cursorB-1);
+            while (notDone) {
+                p.title = "";
+                while (result.charAt(cursorB) != '|') {
+                    cursorB++;
+                }
+                p.title += result.substring(cursorF, cursorB - 4);
 
-            cursorF = cursorB;
-            p.subtitle = "";
-            for(int i=0; i<3; i++){
-                while(result.charAt(cursorB)!=','){cursorB++;}
-                p.subtitle += result.substring(cursorF+1, cursorB-1);
-                if(i!=2){p.subtitle += "\n";}
                 cursorF = cursorB;
+                while (result.charAt(cursorB) != ';') {
+                    cursorB++;
+                }
+                p.title += " : " + result.substring(cursorF + 1, cursorB - 1);
+
+                cursorF = cursorB;
+                p.subtitle = "";
+                for (int i = 0; i < 3; i++) {
+                    while (result.charAt(cursorB) != ',') {
+                        cursorB++;
+                    }
+                    p.subtitle += result.substring(cursorF + 1, cursorB - 1);
+                    if (i != 2) {
+                        p.subtitle += "\n";
+                    }
+                    cursorF = cursorB;
+                }
+
+                prefList.add(p);
+
+                cursorB++;
+                if (cursorB == result.length() - 1) {
+                    notDone = false;
+                }
             }
+        }else{
+            p.title = "No preferences saved";
+            p.subtitle = "Please use the add button at the bottom";
 
             prefList.add(p);
-
-            cursorB++;
-            if(cursorB == result.length()-1){notDone = false;}
         }
 
         prefAdap.notifyDataSetChanged();
