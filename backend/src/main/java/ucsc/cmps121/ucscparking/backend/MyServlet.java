@@ -104,11 +104,60 @@ public class MyServlet extends HttpServlet {
                 p.lots[1] = lotIndex.indexOf(req.getParameter("lot2"));
                 p.lots[2] = lotIndex.indexOf(req.getParameter("lot3"));
 
+                if(u.prefLots == null) {
+                    u.prefLots = new ArrayList<>();
+                }
                 u.prefLots.add(p);
 
                 DBHandler.putUser(u);
 
                 return "Added pref "+p.name;
+            }
+        }
+
+        static class SaveLotPref extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                String name = req.getParameter("name");
+                LotPref p = new LotPref();
+                for(int i=0; i<u.prefLots.size(); i++){
+                    p = u.prefLots.get(i);
+                    if(p.name.contentEquals(name)){
+                        u.prefLots.remove(i);
+                        break;
+                    }
+                }
+                p.time = req.getParameter("time");
+                p.lots[0] = lotIndex.indexOf(req.getParameter("lot1"));
+                p.lots[1] = lotIndex.indexOf(req.getParameter("lot2"));
+                p.lots[2] = lotIndex.indexOf(req.getParameter("lot3"));
+
+                u.prefLots.add(p);
+
+                DBHandler.putUser(u);
+
+                return "Saved " + p.name;
+            }
+        }
+
+        static class DeleteLotPref extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                String name = req.getParameter("name");
+                LotPref p = new LotPref();
+                for(int i=0; i<u.prefLots.size(); i++){
+                    p = u.prefLots.get(i);
+                    if(p.name.contentEquals(name)){
+                        u.prefLots.remove(i);
+                        break;
+                    }
+                }
+
+                DBHandler.putUser(u);
+
+                return "Deleted " + p.name;
             }
         }
 
@@ -179,6 +228,8 @@ public class MyServlet extends HttpServlet {
         funMap.put("CheckUserExists", new FunctionJunction.CheckUserExists());
         funMap.put("GetLots", new FunctionJunction.GetLots());
         funMap.put("AddLotPref", new FunctionJunction.AddLotPref());
+        funMap.put("SaveLotPref", new FunctionJunction.SaveLotPref());
+        funMap.put("DeleteLotPref", new FunctionJunction.DeleteLotPref());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
