@@ -124,13 +124,13 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 while (result.charAt(cursorB) != '|') {
                     cursorB++;
                 }
-                p.title += result.substring(cursorF, cursorB - 1);
+                p.title += result.substring(cursorF, cursorB);
 
                 cursorF = cursorB;
                 while (result.charAt(cursorB) != ';') {
                     cursorB++;
                 }
-                p.title += " : " + result.substring(cursorF + 1, cursorB - 1);
+                p.title += " : " + result.substring(cursorF + 1, cursorB);
 
                 cursorF = cursorB;
                 p.subtitle = "";
@@ -138,16 +138,16 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                     while (result.charAt(cursorB) != ',') {
                         cursorB++;
                     }
-                    p.subtitle += result.substring(cursorF + 1, cursorB - 1);
+                    p.subtitle += result.substring(cursorF + 1, cursorB);
                     if (i != 2) {
                         p.subtitle += "\n";
                     }
                     cursorF = cursorB;
+                    cursorB++;
                 }
 
                 prefList.add(p);
 
-                cursorB++;
                 if(result.charAt(cursorB) == '!'){
                     notDone = false;
                 }
