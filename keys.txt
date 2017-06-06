@@ -1,0 +1,5 @@
+keystore password: parkingsucks
+
+MyParkingKey password: parkingisntfree
+
+release key 5F:12:E2:1A:13:97:DF:06:82:2F:70:F2:FF:CC:BA:1B:00:99:0A:8B

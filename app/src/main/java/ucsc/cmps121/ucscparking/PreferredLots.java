@@ -111,26 +111,32 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
     @Override
     public void processFinish(String result) {
 
-        PrefsElement p = new PrefsElement();
+        PrefsElement p;
 
         if(!result.contentEquals("empty list")) {
-
             boolean notDone = true;
             int cursorF = 0;
             int cursorB = 0;
+            String s = new String();
 
             while (notDone) {
+                p = new PrefsElement();
+                p.intent = new Intent(this, EditPref.class);
                 p.title = "";
                 while (result.charAt(cursorB) != '|') {
                     cursorB++;
                 }
-                p.title += result.substring(cursorF, cursorB);
+                s = result.substring(cursorF, cursorB);
+                p.intent.putExtra("time", s);
+                p.title += s;
 
                 cursorF = cursorB;
                 while (result.charAt(cursorB) != ';') {
                     cursorB++;
                 }
-                p.title += " : " + result.substring(cursorF + 1, cursorB);
+                s = result.substring(cursorF + 1, cursorB);
+                p.intent.putExtra("name", s);
+                p.title += " : " + s;
 
                 cursorF = cursorB;
                 p.subtitle = "";
@@ -138,7 +144,20 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                     while (result.charAt(cursorB) != ',') {
                         cursorB++;
                     }
-                    p.subtitle += result.substring(cursorF + 1, cursorB);
+                    s = result.substring(cursorF + 1, cursorB);
+                    // add lots to intent extras for editing
+                    switch(i){
+                        case 0:
+                            p.intent.putExtra("lot1", s);
+                            break;
+                        case 1:
+                            p.intent.putExtra("lot2", s);
+                            break;
+                        case 2:
+                            p.intent.putExtra("lot3", s);
+                            break;
+                    }
+                    p.subtitle += s;
                     if (i != 2) {
                         p.subtitle += "\n";
                     }
@@ -153,8 +172,10 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
                 }
             }
         }else{
+            p = new PrefsElement();
             p.title = "No preferences saved";
             p.subtitle = "Please use the add button at the bottom";
+            p.intent = new Intent(this, this.getClass());
 
             prefList.add(p);
         }

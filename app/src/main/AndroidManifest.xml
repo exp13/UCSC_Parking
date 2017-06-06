@@ -47,7 +47,8 @@
         <activity
             android:name=".CameraActivity"
             android:label="Camera Test" />
-        <activity android:name=".NewUser"></activity>
+        <activity android:name=".NewUser" />
+        <activity android:name=".EditPref"></activity>
     </application>
 
 </manifest>
