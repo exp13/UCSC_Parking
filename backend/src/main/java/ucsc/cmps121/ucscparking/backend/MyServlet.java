@@ -7,6 +7,8 @@
 package ucsc.cmps121.ucscparking.backend;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,24 +28,28 @@ public class MyServlet extends HttpServlet {
 
     private static class FunctionJunction{
 
-        private static String lotIndex[] = {"empty",
-                                            "North Remote",
-                                            "East Remote",
-                                            "West Remote",
-                                            "Core West",
-                                            "Performing Arts",
-                                            "Kresge College",
-                                            "Stevenson College",
-                                            "Baskin 1",
-                                            "Baskin 2",
-                                            "Rachel Carson College",
-                                            "Oakes College",
-                                            "Merrill College",
-                                            "Porter College",
-                                            "College 10",
-                                            "Hahn Building"};
 
-        FunctionJunction(){}
+        private static ArrayList<String> lotIndex;
+
+        FunctionJunction(){
+            lotIndex = new ArrayList<>();
+            lotIndex.add(0, "empty");
+            lotIndex.add(1, "North Remote");
+            lotIndex.add(2, "East Remote");
+            lotIndex.add(3, "West Remote");
+            lotIndex.add(4, "Core West");
+            lotIndex.add(5, "Performing Arts");
+            lotIndex.add(6, "Kresge College");
+            lotIndex.add(7, "Stevenson College");
+            lotIndex.add(8, "Baskin 1");
+            lotIndex.add(9, "Baskin 2");
+            lotIndex.add(10, "Rachel Carson College");
+            lotIndex.add(11, "Oakes College");
+            lotIndex.add(12, "Merrill College");
+            lotIndex.add(13, "Porter College");
+            lotIndex.add(14, "College 10");
+            lotIndex.add(15, "Hahn Building");
+        }
 
         public String processRequest(HttpServletRequest req) throws IOException{
             return "This is not the class you are looking for.";
@@ -56,7 +62,7 @@ public class MyServlet extends HttpServlet {
             }
         }
 
-        static class SaveUser extends FunctionJunction{
+        static class CreateUser extends FunctionJunction{
             @Override
             public String processRequest(HttpServletRequest req) throws IOException{
                 User nU = new User();
@@ -66,6 +72,27 @@ public class MyServlet extends HttpServlet {
                 DBHandler.putUser(nU);
 
                 return "Saved "+nU.id;
+            }
+        }
+
+        static class AddLotPref extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+
+                LotPref p = new LotPref();
+
+                p.name = req.getParameter("name");
+                p.time = Time.valueOf(req.getParameter("time"));
+                p.lots[0] = lotIndex.indexOf(req.getParameter("lot1"));
+                p.lots[1] = lotIndex.indexOf(req.getParameter("lot2"));
+                p.lots[2] = lotIndex.indexOf(req.getParameter("lot3"));
+
+                u.prefLots.add(p);
+
+                DBHandler.putUser(u);
+
+                return "Added pref "+p.name;
             }
         }
 
@@ -99,7 +126,7 @@ public class MyServlet extends HttpServlet {
                         resp += p.time.toString() + "|";
                         resp += p.name + ";";
                         for (int j = 0; j < 3; j++) {
-                            resp += lotIndex[p.lots[j]] + ",";
+                            resp += lotIndex.get(p.lots[j]) + ",";
                         }
 
                         resp += "!";
@@ -110,6 +137,7 @@ public class MyServlet extends HttpServlet {
                 return resp;
             }
         }
+
     }
 
     private static class DBHandler{
@@ -150,9 +178,10 @@ public class MyServlet extends HttpServlet {
 
         Map<String, FunctionJunction> funMap = new HashMap<>();
         funMap.put("TestFunc", new FunctionJunction.TestFunc());
-        funMap.put("SaveUser", new FunctionJunction.SaveUser());
+        funMap.put("CreateUser", new FunctionJunction.CreateUser());
         funMap.put("CheckUserExists", new FunctionJunction.CheckUserExists());
         funMap.put("GetLots", new FunctionJunction.GetLots());
+        funMap.put("AddLotPref", new FunctionJunction.AddLotPref());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
