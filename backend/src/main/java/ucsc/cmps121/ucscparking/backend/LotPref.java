@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 public class LotPref{
     public String name;
-    public  Time time;
+    public  String time;
     public int lots[];
 
     LotPref(){lots = new int[3];}
