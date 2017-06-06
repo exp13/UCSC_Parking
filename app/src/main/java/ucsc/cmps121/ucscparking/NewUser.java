@@ -94,6 +94,7 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
             tv.setText("Please choose options for each drop down\nand enter a name.");
             tn.setHint("Enter name");
             tn.setHintTextColor(Color.RED);
+
         }else if((lotItem1 == lotItem2) || (lotItem1 == lotItem3) || (lotItem2 == lotItem3)){
             tv.setText("Please choose 3 different lots.");
         }else{
