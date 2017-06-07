@@ -77,6 +77,13 @@ public class AccountPrefs extends AppCompatActivity implements GoogleApiClient.C
         ele.intent = new Intent(this, PaymentHistory.class);
         prefList.add(ele);
 
+        ele = new PrefsElement();
+        ele.title = "Edit license plate";
+        ele.subtitle = "With OCR!";
+        ele.intent = new Intent(this, CameraActivity.class);
+        ele.intent.putExtra("nextClass", "Acc");
+        prefList.add(ele);
+
         prefAdap.notifyDataSetChanged();
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -169,6 +176,11 @@ public class AccountPrefs extends AppCompatActivity implements GoogleApiClient.C
 
             return newView;
         }
+    }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
     }
 }

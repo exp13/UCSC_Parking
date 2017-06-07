@@ -123,4 +123,9 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
     public void onConnectionFailed(ConnectionResult result){
 
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
 }

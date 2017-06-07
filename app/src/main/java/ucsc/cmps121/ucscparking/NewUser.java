@@ -123,7 +123,8 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 
         if(result.contains("Added pref")){
-            Intent intent = new Intent(this, PreferredLots.class);
+            Intent intent = new Intent(this, CameraActivity.class);
+            intent.putExtra("nextClass", "MainMenu");
             startActivity(intent);
         }
     }

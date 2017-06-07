@@ -83,11 +83,23 @@ public class MyServlet extends HttpServlet {
             public String processRequest(HttpServletRequest req) throws IOException{
                 User nU = new User();
                 nU.id = req.getParameter("userid");
-                nU.liPlate = req.getParameter("plate");
 
                 DBHandler.putUser(nU);
 
                 return "Saved "+nU.id;
+            }
+        }
+
+        static class SavePlate extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                String plate = req.getParameter("plate");
+
+                u.liPlate = plate;
+                DBHandler.putUser(u);
+
+                return "Saved "+plate;
             }
         }
 
@@ -230,6 +242,7 @@ public class MyServlet extends HttpServlet {
         funMap.put("AddLotPref", new FunctionJunction.AddLotPref());
         funMap.put("SaveLotPref", new FunctionJunction.SaveLotPref());
         funMap.put("DeleteLotPref", new FunctionJunction.DeleteLotPref());
+        funMap.put("SavePlate", new FunctionJunction.SavePlate());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 

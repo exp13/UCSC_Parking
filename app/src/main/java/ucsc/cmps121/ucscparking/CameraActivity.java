@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.text.Text;
 
-public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CameraActivity extends AppCompatActivity implements View.OnClickListener, ServletPostAsyncTask.AsyncResponse {
 
 
     private static final int RC_OCR_CAPTURE = 9003;
@@ -25,10 +29,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private TextView camT;
     private TextView licenseT;
 
+    private Intent nextClass;
+
+    private AppInfo appInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        appInfo = AppInfo.getInstance(this);
 
         licenseT = (TextView) findViewById(R.id.licenseText);
         camT = (TextView) findViewById(R.id.camText);
@@ -111,7 +121,30 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void saveButOnClick(View v) {
+    public void onSaveClick(View v) {
         //For spencer!
+        if(this.getIntent().getStringExtra("nextClass").contains("MainMenu")){
+            nextClass = new Intent(this, MainMenu.class);
+        }else{
+            nextClass = new Intent(this, AccountPrefs.class);
+        }
+
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("func", "SavePlate");
+        aMap.put("userid", appInfo.getEmail());
+        aMap.put("plate", licenseT.getText().toString());
+        new ServletPostAsyncTask(this).execute(aMap);
+
+    }
+
+    @Override
+    public void processFinish(String result){
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        startActivity(nextClass);
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }
