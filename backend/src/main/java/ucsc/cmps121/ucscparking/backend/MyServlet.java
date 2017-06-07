@@ -82,9 +82,9 @@ public class MyServlet extends HttpServlet {
 
             spotNumIndex = new int[]{
                     0,
-                    300,300,300,300,300,
-                    300,300,300,300,300,
-                    300,300,300,300,300
+                    100,100,100,100,100,
+                    100,100,100,100,100,
+                    100,100,100,100,100
             };
         }
 
@@ -264,25 +264,25 @@ public class MyServlet extends HttpServlet {
 
                         p.spots.add(s.spotID, s);
                     }
-                    resp = "LOT_EMPTY";
 
                 }else{
-                    resp = "";
                     p = updateLotStatus(p, cal);
-                    LotSpot s;
-
-                    //construct response
-                    for(int i=0; i<p.spots.size(); i++){
-                        s = p.spots.get(i);
-
-                        if(s.spotFull){
-                            resp += "1,";
-                        }else{
-                            resp += "0,";
-                        }
-                    }
-                    resp += "!";
                 }
+
+                resp = "";
+                LotSpot s;
+
+                //construct response
+                for(int i=0; i<p.spots.size(); i++){
+                    s = p.spots.get(i);
+
+                    if(s.spotFull){
+                        resp += "1,";
+                    }else{
+                        resp += "0,";
+                    }
+                }
+                resp += "!";
 
                 DBHandler.putLot(p);
 
