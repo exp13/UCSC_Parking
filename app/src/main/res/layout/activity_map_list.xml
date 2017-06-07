@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/night"
     tools:context="ucsc.cmps121.ucscparking.MapList">
 
     <ListView
@@ -29,6 +30,7 @@
         android:layout_marginTop="8dp"
         android:onClick="goMapView"
         android:text="Main Map"
+        android:background="@drawable/menu"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
