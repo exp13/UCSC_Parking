@@ -5,17 +5,16 @@
 
     <item>
 
-        <shape android:shape="rectangle" >
+        <shape android:shape="rectangle"  android:left="150px" android:right="150px">
             <solid android:color="#8000"/>
 
             <stroke android:width="2dp"
 
-                    />
+                />
 
             <corners android:radius="20dp" />
         </shape>
 
     </item>
-        android:left="150px" android:right="150px"
-        />
+
 </layer-list>
