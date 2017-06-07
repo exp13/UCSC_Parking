@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.*;
 
+import com.google.appengine.repackaged.com.google.common.base.Flag;
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
@@ -28,6 +31,7 @@ public class MyServlet extends HttpServlet {
     private static class DBHandler{
         static{
             ObjectifyService.register(User.class);
+            ObjectifyService.register(ParkingLot.class);
         }
 
         public static void putUser(User u){
@@ -40,12 +44,22 @@ public class MyServlet extends HttpServlet {
 
             return gU;
         }
+
+        public static void putLot(ParkingLot p) {ofy().save().entity(p).now();}
+
+        public static ParkingLot getLot(String id){
+            Key<ParkingLot> pKey = Key.create(ParkingLot.class, id);
+            ParkingLot gP = ofy().load().key(pKey).now();
+
+            return gP;
+        }
     }
 
     private static class FunctionJunction{
 
 
         private static ArrayList<String> lotIndex;
+        private static int[] spotNumIndex;
 
         FunctionJunction(){
             lotIndex = new ArrayList<>();
@@ -65,6 +79,13 @@ public class MyServlet extends HttpServlet {
             lotIndex.add(13, "Porter College");
             lotIndex.add(14, "College 10");
             lotIndex.add(15, "Hahn Building");
+
+            spotNumIndex = new int[]{
+                    0,
+                    300,300,300,300,300,
+                    300,300,300,300,300,
+                    300,300,300,300,300
+            };
         }
 
         public String processRequest(HttpServletRequest req) throws IOException{
@@ -213,6 +234,147 @@ public class MyServlet extends HttpServlet {
             }
         }
 
+        static class GetParkingLot extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                String lotname = req.getParameter("lotid");
+                ParkingLot p = DBHandler.getLot(lotname);
+                String resp;
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeZone(TimeZone.getTimeZone("PST"));
+                if(p == null){
+                    p = new ParkingLot();
+                    p.lotName = lotname;
+                    p.lastUpdate = "08:00";
+
+                    p.spots = new ArrayList<>();
+                    LotSpot s;
+                    for(int i=0; i<spotNumIndex[lotIndex.indexOf(lotname)]; i++){
+                        s = new LotSpot();
+                        s.spotFull = false;
+                        s.spotID = i;
+                        s.spotUser = new String();
+                        s.spotUser = "none";
+                        s.checkInTime = new String();
+                        s.checkInTime = "00:00";
+                        s.checkInDate = cal.get(Calendar.DAY_OF_MONTH);
+                        s.durationH = 0;
+                        s.durationM = 0;
+
+                        p.spots.add(s.spotID, s);
+                    }
+                    resp = "LOT_EMPTY";
+
+                }else{
+                    resp = "";
+                    p = updateLotStatus(p, cal);
+                    LotSpot s;
+
+                    //construct response
+                    for(int i=0; i<p.spots.size(); i++){
+                        s = p.spots.get(i);
+
+                        if(s.spotFull){
+                            resp += "1,";
+                        }else{
+                            resp += "0,";
+                        }
+                    }
+                    resp += "!";
+                }
+
+                DBHandler.putLot(p);
+
+                return resp;
+            }
+
+            private ParkingLot updateLotStatus(ParkingLot p, Calendar cal){
+                Time lastUpdate = Time.valueOf(p.lastUpdate+":00");
+                int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+                int currentMin = cal.get(Calendar.MINUTE);
+                String cH = Integer.toString(currentHour);
+                String cM = Integer.toString(currentMin);
+
+                if(currentHour<10){cH = "0" + cH;}
+                if(currentMin<10){cM = "0" + cM;}
+
+                // outsit parking hours
+                if(currentHour < 8 || currentHour > 16) {
+                    p = clearLot(p);
+
+                //last update occured over 15 min ago
+                }else if(currentHour>lastUpdate.getHours() ||
+                        currentMin> (lastUpdate.getMinutes()+15) ) {
+
+                    p.lastUpdate = cH+":"+cM;
+
+                    LotSpot s;
+                    for(int i=0; i<p.spots.size(); i++){
+                        s = p.spots.get(i);
+                        s = updateSpot(s);
+
+                        p.spots.remove(i);
+                        p.spots.add(i, s);
+                    }
+
+                }
+
+                return p;
+            }
+
+            private LotSpot updateSpot(LotSpot s){
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeZone(TimeZone.getTimeZone("PST"));
+                if(!s.spotFull){
+                    int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+                    int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+                    int currentMin = cal.get(Calendar.MINUTE);
+                    boolean overHours = false;
+
+                    Time checkIn = Time.valueOf(s.checkInTime+":00");
+
+                    // check if past checkin day or past hour duration
+                    if(currentDay>s.checkInDate ||
+                            currentHour> (checkIn.getHours()+s.durationH) )
+                    {overHours = true;}
+
+                    // if past hour duration check past minute duration and clear if true
+                    if(overHours && currentMin>(checkIn.getMinutes()+s.durationM) ){
+                        s.spotFull = false;
+                        s.spotUser = "none";
+                        s.checkInTime = "00:00";
+                        s.checkInDate = cal.get(Calendar.DAY_OF_MONTH);
+                        s.durationH = 0;
+                        s.durationM = 0;
+                    }
+                }
+
+                return s;
+            }
+
+            private ParkingLot clearLot(ParkingLot p){
+                p.lastUpdate = "08:00";
+                Calendar cal = Calendar.getInstance();
+
+                LotSpot s;
+                for(int i=0; i<p.spots.size(); i++){
+                    s = p.spots.get(i);
+                    s.spotFull = false;
+                    s.spotUser = "none";
+                    s.checkInTime = "00:00";
+                    s.checkInDate = cal.get(Calendar.DAY_OF_MONTH);
+                    s.durationH = 0;
+                    s.durationM = 0;
+
+                    p.spots.remove(i);
+                    p.spots.add(i, s);
+                }
+
+                return p;
+            }
+        }
+
     }
 
 
@@ -221,6 +383,13 @@ public class MyServlet extends HttpServlet {
         @Id String id;
         String liPlate;
         ArrayList<LotPref> prefLots;
+    }
+
+    @Entity
+    static class ParkingLot{
+        @Id String lotName;
+        ArrayList<LotSpot> spots;
+        String lastUpdate;
     }
 
     @Override
@@ -243,6 +412,7 @@ public class MyServlet extends HttpServlet {
         funMap.put("SaveLotPref", new FunctionJunction.SaveLotPref());
         funMap.put("DeleteLotPref", new FunctionJunction.DeleteLotPref());
         funMap.put("SavePlate", new FunctionJunction.SavePlate());
+        funMap.put("GetParkingLot", new FunctionJunction.GetParkingLot());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
