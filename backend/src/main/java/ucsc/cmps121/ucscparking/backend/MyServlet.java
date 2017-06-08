@@ -505,6 +505,7 @@ public class MyServlet extends HttpServlet {
         funMap.put("SavePlate", new FunctionJunction.SavePlate());
         funMap.put("GetParkingLot", new FunctionJunction.GetParkingLot());
         funMap.put("ReserveSpot", new FunctionJunction.ReserveSpot());
+        funMap.put("ReportPlate", new FunctionJunction.ReportPlate());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
