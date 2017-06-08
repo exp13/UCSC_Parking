@@ -57,7 +57,8 @@
         <activity android:name=".SpotList" />
         <activity android:name=".FindSpot" />
         <activity android:name=".ConfirmSpot" />
-        <activity android:name=".CheckIn"></activity>
+        <activity android:name=".CheckIn" />
+        <activity android:name=".CheckOut"></activity>
     </application>
 
 </manifest>

@@ -104,6 +104,9 @@ public class MyServlet extends HttpServlet {
             public String processRequest(HttpServletRequest req) throws IOException{
                 User nU = new User();
                 nU.id = req.getParameter("userid");
+                nU.inSpot = false;
+                nU.currentLot = "none";
+                nU.currentSpot = -1;
 
                 DBHandler.putUser(nU);
 
@@ -374,6 +377,55 @@ public class MyServlet extends HttpServlet {
             }
         }
 
+        static class ReserveSpot extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                ParkingLot lot = DBHandler.getLot(req.getParameter("lotid"));
+
+                int resvSpot = reserve(u, lot);
+                String resp = Integer.toString(resvSpot) + "!";
+
+                return resp;
+            }
+
+            private int reserve(User u, ParkingLot lot){
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeZone(TimeZone.getTimeZone("PST"));
+
+                LotSpot s = new LotSpot();
+                for(int i=0; i<lot.spots.size(); i++){
+                    s = lot.spots.get(i);
+                    if(s.spotFull == false){
+                        break;
+                    }
+                }
+                s.spotFull = true;
+                s.checkInDate = cal.get(Calendar.DAY_OF_MONTH);
+                int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+                int currentMin = cal.get(Calendar.MINUTE);
+                String cH = Integer.toString(currentHour);
+                String cM = Integer.toString(currentMin);
+                if(currentHour<10){cH = "0"+cH;}
+                if(currentMin<10){cM = "0"+cM;}
+                s.checkInTime = cH+":"+cM;
+                s.durationH = 0;
+                s.durationM = 15;
+                s.spotUser = u.id;
+
+                lot.spots.remove(s.spotID-1);
+                lot.spots.add(s.spotID-1, s);
+                u.inSpot = true;
+                u.currentLot = lot.lotName;
+                u.currentSpot = s.spotID;
+                DBHandler.putUser(u);
+                DBHandler.putLot(lot);
+
+                return s.spotID;
+            }
+
+        }
+
     }
 
 
@@ -382,6 +434,10 @@ public class MyServlet extends HttpServlet {
         @Id String id;
         String liPlate;
         ArrayList<LotPref> prefLots;
+
+        boolean inSpot;
+        String currentLot;
+        int currentSpot;
     }
 
     @Entity
@@ -412,6 +468,7 @@ public class MyServlet extends HttpServlet {
         funMap.put("DeleteLotPref", new FunctionJunction.DeleteLotPref());
         funMap.put("SavePlate", new FunctionJunction.SavePlate());
         funMap.put("GetParkingLot", new FunctionJunction.GetParkingLot());
+        funMap.put("ReserveSpot", new FunctionJunction.ReserveSpot());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 
