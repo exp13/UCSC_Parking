@@ -56,12 +56,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         if(next.contains("report")){
             cancelGoBack = true;
+        }else if(next.contains("MainMenu")) {
+            cancelButton.setVisibility(View.GONE);
         }else{
             cancelGoBack = false;
-        }
-
-        if(next.contains("MainMenu")) {
-            cancelButton.setVisibility(View.GONE);
+            nextClass = new Intent(this, AccountPrefs.class);
+            nextClass.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 
         firstPic = true;
@@ -144,6 +144,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         if(next.contains("MainMenu")) {
             nextClass = new Intent(this, MainMenu.class);
+            nextClass.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             aMap.put("func", "SavePlate");
             aMap.put("userid", appInfo.getEmail());
         }else if(next.contains("report")){
@@ -155,6 +156,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             nextClass.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }else{
             nextClass = new Intent(this, AccountPrefs.class);
+            nextClass.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             aMap.put("func", "SavePlate");
             aMap.put("userid", appInfo.getEmail());
         }
@@ -168,9 +170,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if(cancelGoBack){
             super.onBackPressed();
         }else {
-            Intent intent = new Intent(this, this.getIntent().getClass());
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            startActivity(nextClass);
         }
     }
 
