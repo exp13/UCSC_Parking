@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@drawable/redwood"
     tools:context="ucsc.cmps121.ucscparking.MainMenu">
 
     <Button
@@ -17,7 +17,7 @@
         android:onClick="goAccountPrefs"
         android:text="Account"
         android:fontFamily="sans-serif"
-        android:background="#ffffff"
+        android:background="@drawable/menu"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -32,7 +32,7 @@
         android:layout_marginTop="55dp"
         android:onClick="goMapList"
         android:text="Parking Maps"
-        android:background="#ffffff"
+        android:background="@drawable/menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountB"
         android:layout_marginRight="8dp"
@@ -47,7 +47,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="57dp"
-        android:background="#ffffff"
+        android:background="@drawable/menu"
         android:fontFamily="sans-serif"
         android:onClick="goFindSpot"
         android:text="Find a spot"
