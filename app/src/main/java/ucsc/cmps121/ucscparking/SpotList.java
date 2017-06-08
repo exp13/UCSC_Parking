@@ -28,7 +28,7 @@ public class SpotList extends AppCompatActivity implements ServletPostAsyncTask.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spot_list);
 
-        ListView myList = (ListView) findViewById(R.id.parkMapList);
+        ListView myList = (ListView) findViewById(R.id.spotListView);
         spotList = new ArrayList<>();
         spotAdap = new SpotAdapter(this, R.layout.map_list_row, spotList);
         myList.setAdapter(spotAdap);
@@ -44,6 +44,8 @@ public class SpotList extends AppCompatActivity implements ServletPostAsyncTask.
         });
 
         Map<String, String> aMap = new HashMap<>();
+
+        aMap.put("func", "GetParkingLot");
         aMap.put("lotid", "North Remote");
 
         new ServletPostAsyncTask(this).execute(aMap);
@@ -104,11 +106,11 @@ public class SpotList extends AppCompatActivity implements ServletPostAsyncTask.
         int cursorF = 0;
         int cursorB = 1;
         boolean notDone = true;
-        SpotElement s = new SpotElement();
         int index = 1;
+        SpotElement s;
 
         while(notDone){
-
+            s = new SpotElement();
             s.spotID = index;
             s.title = "Spot " + Integer.toString(index);
             index++;
