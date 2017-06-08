@@ -66,6 +66,15 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
         TextView email = (TextView)findViewById(R.id.textView6);
         email.setText(appInfo.getEmail());
 
+        TextView spotBut = (TextView) findViewById(R.id.findSpotBut);
+
+        if(appInfo.getLot().contains("none")) {
+            spotBut.setText("Find a spot");
+        }
+        else {
+            spotBut.setText("Check Out");
+        }
+
     }
 
     public void goAccountPrefs(View v){
@@ -79,8 +88,15 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
     }
 
     public void goFindSpot(View v) {
-        Intent intent = new Intent(this, FindSpot.class);
-        startActivity(intent);
+        if(appInfo.getLot().contains("none")) {
+            Intent intent = new Intent(this, FindSpot.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, CheckOut.class);
+            startActivity(intent);
+        }
+
     }
 
     @Override

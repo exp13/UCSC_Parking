@@ -148,7 +148,7 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
 
         }
         else {
-            checkMsg.setText("Please select a duration.");
+            checkMsg.setText("Please select\n a duration.");
         }
 
 

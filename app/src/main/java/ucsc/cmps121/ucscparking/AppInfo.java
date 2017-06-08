@@ -20,7 +20,8 @@ public class AppInfo {
 
 
     protected AppInfo() {
-
+        spot = "none";
+        lot = "none";
     }
 
     public static AppInfo getInstance(Context context) {
@@ -29,8 +30,7 @@ public class AppInfo {
             instance.my_context = context;
             instance.settings = context.getSharedPreferences("UCSCParking", 0);
         }
-        instance.spot = "none";
-        instance.lot = "none";
+
         return instance;
     }
 
