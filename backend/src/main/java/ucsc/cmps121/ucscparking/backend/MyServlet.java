@@ -440,6 +440,9 @@ public class MyServlet extends HttpServlet {
             public String processRequest(HttpServletRequest req) throws IOException{
                 String lot = req.getParameter("lotid");
                 int spot = Integer.parseInt(req.getParameter("spotid"));
+                ParkingLot rLot = DBHandler.getLot(lot);
+                LotSpot rSpot = rLot.spots.get(spot-1);
+                User oU = DBHandler.getUser(rSpot.spotUser);
 
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeZone(TimeZone.getTimeZone("PST"));
@@ -457,9 +460,69 @@ public class MyServlet extends HttpServlet {
                 rU.currentSpot = spot;
                 rU.currentLot = lot;
 
+                oU.currentLot = "none";
+                oU.currentSpot = -1;
+                oU.inSpot = false;
+
+                rSpot.spotUser = rU.id;
+                rLot.spots.remove(spot-1);
+                rLot.spots.add(spot-1, rSpot);
+
+                DBHandler.putUser(oU);
                 DBHandler.putUser(rU);
+                DBHandler.putLot(rLot);
 
                 return "Reported "+rU.liPlate;
+            }
+        }
+
+        static class CheckIn extends FunctionJunction {
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                String lot = req.getParameter("lotid");
+                int spot = Integer.parseInt(req.getParameter("spotid"));
+                ParkingLot cLot = DBHandler.getLot(lot);
+                LotSpot cSpot = cLot.spots.get(spot-1);
+
+                cSpot.durationH += Integer.parseInt(req.getParameter("durationh"));
+                cSpot.durationM += Integer.parseInt(req.getParameter("durationm"));
+
+                cLot.spots.remove(spot-1);
+                cLot.spots.add(spot-1, cSpot);
+
+                DBHandler.putLot(cLot);
+
+                return "CheckIn";
+            }
+        }
+
+        static class CheckOut extends FunctionJunction {
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException {
+                User u = DBHandler.getUser(req.getParameter("userid"));
+                ParkingLot cLot = DBHandler.getLot(u.currentLot);
+                LotSpot cSpot = cLot.spots.get(u.currentSpot-1);
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeZone(TimeZone.getTimeZone("PST"));
+
+                cSpot.checkInDate = cal.get(Calendar.DAY_OF_MONTH);
+                cSpot.checkInTime = "00:00";
+                cSpot.spotFull = false;
+                cSpot.spotUser = "none";
+                cSpot.durationH = 0;
+                cSpot.durationM = 0;
+                cLot.spots.remove(cSpot.spotID-1);
+                cLot.spots.add(cSpot.spotID-1, cSpot);
+
+                u.inSpot = false;
+                u.currentSpot = -1;
+                u.currentLot = "none";
+
+                DBHandler.putUser(u);
+                DBHandler.putLot(cLot);
+
+                return "CheckOut";
             }
         }
     }
@@ -506,6 +569,8 @@ public class MyServlet extends HttpServlet {
         funMap.put("GetParkingLot", new FunctionJunction.GetParkingLot());
         funMap.put("ReserveSpot", new FunctionJunction.ReserveSpot());
         funMap.put("ReportPlate", new FunctionJunction.ReportPlate());
+        funMap.put("CheckIn", new FunctionJunction.CheckIn());
+        funMap.put("CheckOut", new FunctionJunction.CheckOut());
 
         String myResp = funMap.get(req.getParameter("func")).processRequest(req);
 

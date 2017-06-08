@@ -76,12 +76,15 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
                 String cM = Integer.toString(currentM);
                 if(currentM < 10){cM = "0" + cM;}
                 spotMsg.setText("Spot "+spotNum+" is reserved until "+cH+":"+cM);
-
                 break;
             case 1:
-                if(result.contains("checkedin")){
+                if(result.contains("CheckIn")){
                     Intent intent = new Intent(this, CheckOut.class);
                     startActivity(intent);
+                }
+                else {
+                    checkMsg.setText("Server error,\n please try again!");
+                    packetCounter--;
                 }
 
                 break;
@@ -96,6 +99,59 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
         intent.putExtra("lotid", rLot);
         intent.putExtra("spotid", spotNum);
         startActivity(intent);
+    }
+
+    public void onCheckInPressed(View v) {
+        String time = (String) timeSpinner.getSelectedItem();
+        if (!time.contains("Time")) {
+            appInfo.setLot(rLot);
+            appInfo.setSpot(spotNum);
+
+            Map<String, String> aMap = new HashMap<>();
+            aMap.put("func", "CheckIn");
+            aMap.put("lotid", rLot);
+            aMap.put("spotid", spotNum);
+
+            if(time.contains("30")) {
+                aMap.put("durationh", "0");
+                aMap.put("durationm", "30");
+            }
+            else if(time.contains("45")) {
+                aMap.put("durationh", "0");
+                aMap.put("durationm", "45");
+            }
+            else if(time.contains("1")) {
+
+                if(time.contains("1.25")) {
+                    aMap.put("durationh", "1");
+                    aMap.put("durationm", "15");
+                }
+                else if(time.contains("1.5")) {
+                    aMap.put("durationh", "1");
+                    aMap.put("durationm", "30");
+                }
+                else if(time.contains("1.75")) {
+                    aMap.put("durationh", "1");
+                    aMap.put("durationm", "45");
+                }
+                else {
+                    aMap.put("durationh", "1");
+                    aMap.put("durationm", "0");
+                }
+            }
+            else if(time.contains("2")) {
+                aMap.put("durationh", "2");
+                aMap.put("durationm", "0");
+            }
+
+            new ServletPostAsyncTask(this).execute(aMap);
+
+        }
+        else {
+            checkMsg.setText("Please select a duration.");
+        }
+
+
     }
 
     @Override
