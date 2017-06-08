@@ -6,12 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +29,7 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
 
         appInfo = AppInfo.getInstance(this);
 
-        timeDrop = (Spinner) findViewById(R.id.newTimeSpinner);
+        timeDrop = (Spinner) findViewById(R.id.timeSpinner);
         String[] items = new String[] {"Choose a time...",
                 "08:00", "08:15", "08:30", "08:45",
                 "09:00", "09:15", "09:30", "09:45",
@@ -103,6 +101,8 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
 
             cMap.put("func", "CreateUser");
             cMap.put("userid", appInfo.getEmail());
+            appInfo.setSpot("none");
+            appInfo.setLot("none");
             new ServletPostAsyncTask(this).execute(cMap);
 
             lMap.put("func", "AddLotPref");

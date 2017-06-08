@@ -78,8 +78,8 @@ public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.
         startActivity(intent);
     }
 
-    public void goCamera(View v) {
-        Intent intent = new Intent(this, CameraActivity.class);
+    public void goFindSpot(View v) {
+        Intent intent = new Intent(this, FindSpot.class);
         startActivity(intent);
     }
 

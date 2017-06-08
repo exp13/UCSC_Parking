@@ -14,62 +14,65 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class FindLots extends AppCompatActivity {
+public class SpotList extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse{
 
-    private ArrayList<PreferredLots> lotsList;
-    private LotsAdapter mapAdap;
+    private ArrayList<SpotElement> spotList;
+    private SpotAdapter spotAdap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_lots);
+        setContentView(R.layout.activity_spot_list);
 
-        ListView myList = (ListView) findViewById(R.id.prefferedParking);
-        lotsList = new ArrayList<PreferredLots>();
-        mapAdap = new LotsAdapter(this, R.layout.map_list_row, lotsList);
-        myList.setAdapter(mapAdap);
+        ListView myList = (ListView) findViewById(R.id.spotListView);
+        spotList = new ArrayList<>();
+        spotAdap = new SpotAdapter(this, R.layout.map_list_row, spotList);
+        myList.setAdapter(spotAdap);
 
         final Context context = this;
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PreferredLots ele = lotsList.get(position);
+                SpotElement ele = spotList.get(position);
                 Intent intent = ele.intent;
                 startActivity(intent);
             }
         });
-        PreferredLots ele;
 
-        //add first item
-        ele = new PreferredLots();
-        ele.title = "East Remote Lot";
-        ele.subtitle = "Parking Spot 15D";
-        ele.intent = new Intent(this, FindLots.class);
-        lotsList.add(ele);
-        mapAdap.notifyDataSetChanged();
+        Map<String, String> aMap = new HashMap<>();
+
+        aMap.put("func", "GetParkingLot");
+        aMap.put("lotid", "North Remote");
+
+        new ServletPostAsyncTask(this).execute(aMap);
     }
 
-    private class PreferredLots{
+    public class SpotElement{
 
         public String title;
         public String subtitle;
+        public int spotID;
         public Intent intent;
 
-        PreferredLots(){};
+        SpotElement(){};
 
-        PreferredLots(String t, String s, Intent i){
+        SpotElement(String t, String s, Intent i){
             title = t;
             subtitle = s;
             intent = i;
         }
     }
-    private class LotsAdapter extends ArrayAdapter<PreferredLots> {
+
+    private class SpotAdapter extends ArrayAdapter<SpotElement> {
 
         Context context;
         int resource;
 
-        public LotsAdapter(Context c, int r, List<PreferredLots> news){
+        public SpotAdapter(Context c, int r, List<SpotElement> news){
             super(c, r, news);
             context = c;
             resource = r;
@@ -78,7 +81,7 @@ public class FindLots extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             LinearLayout newView;
-            PreferredLots ele = getItem(position);
+            SpotElement ele = getItem(position);
 
             if(convertView == null){
                 newView = new LinearLayout(getContext());
@@ -97,12 +100,38 @@ public class FindLots extends AppCompatActivity {
         }
 
     }
-
+    
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, MainMenu.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+    public void processFinish(String result){
+        int cursorF = 0;
+        int cursorB = 1;
+        boolean notDone = true;
+        int index = 1;
+        SpotElement s;
+
+        while(notDone){
+            s = new SpotElement();
+            s.spotID = index;
+            s.title = "Spot " + Integer.toString(index);
+            index++;
+
+            if(Integer.parseInt(result.substring(cursorF, cursorB))==1){
+                s.subtitle = "Occupied";
+            }else{
+                s.subtitle = "Available";
+            }
+
+            cursorB++;
+            if(result.charAt(cursorB)=='!'){
+                notDone = false;
+            }else{
+                cursorF = cursorB;
+                cursorB++;
+            }
+
+            spotList.add(s);
+        }
+
+        spotAdap.notifyDataSetChanged();
     }
 }
-

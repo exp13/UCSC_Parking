@@ -57,12 +57,24 @@
         android:id="@+id/saveBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:onClick="onSaveClick"
         android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveConfirmText" />
+        app:layout_constraintTop_toBottomOf="@+id/saveConfirmText"
+        app:layout_constraintVertical_bias="0.493"
+        app:layout_constraintBottom_toTopOf="@+id/cancelBut" />
+
+    <Button
+        android:id="@+id/cancelBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="onCancelClick"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -3,7 +3,7 @@
     package="ucsc.cmps121.ucscparking">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddPref"
+            android:label="Add Pref" />
         <activity
             android:name=".MainMenu"
             android:label="Menu" />
@@ -50,7 +53,12 @@
             android:label="Camera Test" />
         <activity android:name=".NewUser" />
         <activity android:name=".EditPref" />
-        <activity android:name=".OcrCaptureActivity"></activity>
+        <activity android:name=".OcrCaptureActivity" />
+        <activity android:name=".SpotList" />
+        <activity android:name=".FindSpot" />
+        <activity android:name=".ConfirmSpot" />
+        <activity android:name=".CheckIn" />
+        <activity android:name=".CheckOut"></activity>
     </application>
 
 </manifest>

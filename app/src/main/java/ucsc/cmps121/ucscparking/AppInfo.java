@@ -14,6 +14,9 @@ public class AppInfo {
     private Context my_context;
 
     private String userEmail;
+    private String spot;
+    private String lot;
+    private SharedPreferences settings;
 
 
     protected AppInfo() {
@@ -23,10 +26,34 @@ public class AppInfo {
     public static AppInfo getInstance(Context context) {
         if(instance == null) {
             instance = new AppInfo();
-            //instance.my_context = context;
-            //SharedPreferences settings = context.getSharedPreferences("UCSCParking", 0);
+            instance.my_context = context;
+            instance.settings = context.getSharedPreferences("UCSCParking", 0);
         }
+        instance.spot = "none";
+        instance.lot = "none";
         return instance;
+    }
+
+    public void setSpot(String s){
+        SharedPreferences.Editor editor = settings.edit();
+        spot = s;
+        editor.putString("spotid", s);
+        editor.commit();
+    }
+
+    public String getSpot(){
+        return settings.getString("spotid", "ERR");
+    }
+
+    public void setLot(String s){
+        SharedPreferences.Editor editor = settings.edit();
+        lot = s;
+        editor.putString("lotid", s);
+        editor.commit();
+    }
+
+    public String getLot(){
+        return settings.getString("lotid", "ERR");
     }
 
     public void setEmail(String e){
