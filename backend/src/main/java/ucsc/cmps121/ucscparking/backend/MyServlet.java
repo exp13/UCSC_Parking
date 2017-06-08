@@ -239,7 +239,7 @@ public class MyServlet extends HttpServlet {
             public String processRequest(HttpServletRequest req) throws IOException{
                 String lotname = req.getParameter("lotid");
                 ParkingLot p = DBHandler.getLot(lotname);
-                String resp;
+                String resp = new String();
 
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeZone(TimeZone.getTimeZone("PST"));
@@ -250,7 +250,7 @@ public class MyServlet extends HttpServlet {
 
                     p.spots = new ArrayList<>();
                     LotSpot s;
-                    for(int i=0; i<spotNumIndex[lotIndex.indexOf(lotname)]; i++){
+                    for(int i=1; i<=spotNumIndex[lotIndex.indexOf(lotname)]; i++){
                         s = new LotSpot();
                         s.spotFull = false;
                         s.spotID = i;
@@ -262,7 +262,7 @@ public class MyServlet extends HttpServlet {
                         s.durationH = 0;
                         s.durationM = 0;
 
-                        p.spots.add(s.spotID, s);
+                        p.spots.add(s.spotID-1, s);
                     }
 
                 }else{
@@ -271,17 +271,16 @@ public class MyServlet extends HttpServlet {
 
                 resp = "";
                 LotSpot s;
+                int emSpots = 0;
 
                 //construct response
                 for(int i=0; i<p.spots.size(); i++){
                     s = p.spots.get(i);
-
-                    if(s.spotFull){
-                        resp += "1,";
-                    }else{
-                        resp += "0,";
+                    if(!s.spotFull){
+                        emSpots++;
                     }
                 }
+                resp += Integer.toString(emSpots);
                 resp += "!";
 
                 DBHandler.putLot(p);
@@ -300,7 +299,7 @@ public class MyServlet extends HttpServlet {
                 if(currentMin<10){cM = "0" + cM;}
 
                 // outsit parking hours
-                if(currentHour < 8 || currentHour > 16) {
+                if(currentHour < 8 || currentHour > 22) {
                     p = clearLot(p);
 
                 //last update occured over 15 min ago
