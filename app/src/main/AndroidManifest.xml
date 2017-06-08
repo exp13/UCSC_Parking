@@ -25,6 +25,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".AddPref"
+            android:label="Add Pref" />
+        <activity
             android:name=".MainMenu"
             android:label="Menu" />
         <activity
@@ -51,7 +54,9 @@
         <activity android:name=".NewUser" />
         <activity android:name=".EditPref" />
         <activity android:name=".OcrCaptureActivity" />
-        <activity android:name=".SpotList"></activity>
+        <activity android:name=".SpotList" />
+        <activity android:name=".FindSpot" />
+        <activity android:name=".ConfirmSpot"></activity>
     </application>
 
 </manifest>

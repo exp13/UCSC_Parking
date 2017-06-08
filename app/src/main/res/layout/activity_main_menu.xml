@@ -49,7 +49,7 @@
         android:layout_marginTop="57dp"
         android:background="#ffffff"
         android:fontFamily="sans-serif"
-        android:onClick="goCamera"
+        android:onClick="goFindSpot"
         android:text="Find a spot"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
