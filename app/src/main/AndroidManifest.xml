@@ -56,7 +56,8 @@
         <activity android:name=".OcrCaptureActivity" />
         <activity android:name=".SpotList" />
         <activity android:name=".FindSpot" />
-        <activity android:name=".ConfirmSpot"></activity>
+        <activity android:name=".ConfirmSpot" />
+        <activity android:name=".CheckIn"></activity>
     </application>
 
 </manifest>

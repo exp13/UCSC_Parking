@@ -217,7 +217,7 @@ public class FindSpot extends AppCompatActivity implements ServletPostAsyncTask.
                 } else {
                     p = new PrefsElement();
                     p.title = "No preferences saved";
-                    p.subtitle = "Please use the add button at the bottom";
+                    p.subtitle = "Add these from the Account menu";
                     p.intent = new Intent(this, this.getClass());
 
                     prefList.add(p);
@@ -242,6 +242,7 @@ public class FindSpot extends AppCompatActivity implements ServletPostAsyncTask.
                 if (selectedEle.lot1Count == 0 && selectedEle.lot2Count == 0 && selectedEle.lot3Count == 0) {
 
                     intent.putExtra("lot_name", "none");
+                    intent.putExtra("spot_count", Integer.toString(0));
                 }
                 else {
 
@@ -290,5 +291,11 @@ public class FindSpot extends AppCompatActivity implements ServletPostAsyncTask.
         }
     }
 
+    public void onSearchClick(View v){
+        Intent intent = new Intent(this, ConfirmSpot.class);
+        intent.putExtra("lot_name", "none");
+        intent.putExtra("spot_count", "0");
+        startActivity(intent);
+    }
 
 }
