@@ -25,6 +25,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import static com.googlecode.objectify.ObjectifyService.run;
 
 public class MyServlet extends HttpServlet {
 
@@ -434,6 +435,33 @@ public class MyServlet extends HttpServlet {
 
         }
 
+        static class ReportPlate extends FunctionJunction{
+            @Override
+            public String processRequest(HttpServletRequest req) throws IOException{
+                String lot = req.getParameter("lotid");
+                int spot = Integer.parseInt(req.getParameter("spotid"));
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeZone(TimeZone.getTimeZone("PST"));
+                int currentH = cal.get(Calendar.HOUR_OF_DAY);
+                int currentM = cal.get(Calendar.MINUTE);
+                String cH = Integer.toString(currentH);
+                String cM = Integer.toString(currentM);
+                if(currentH<10){cH = "0"+cH;}
+                if(currentM<10){cM = "0"+cM;}
+
+                User rU = new User();
+                rU.id = "report@"+cH+":"+cM;
+                rU.liPlate = req.getParameter("plate");
+                rU.inSpot = true;
+                rU.currentSpot = spot;
+                rU.currentLot = lot;
+
+                DBHandler.putUser(rU);
+
+                return "Reported "+rU.liPlate;
+            }
+        }
     }
 
 
