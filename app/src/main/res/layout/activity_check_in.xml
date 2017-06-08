@@ -57,14 +57,15 @@
         android:layout_width="100dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
+        android:onClick="onCamPress"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkInMsg"
-        app:srcCompat="@drawable/camera"
-        android:layout_marginEnd="8dp" />
+        app:srcCompat="@drawable/camera" />
 
     <TextView
         android:id="@+id/spotMsg"

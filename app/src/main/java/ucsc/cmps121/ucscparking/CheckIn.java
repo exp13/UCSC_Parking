@@ -3,6 +3,7 @@ package ucsc.cmps121.ucscparking;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
     private TextView checkMsg;
     private Spinner timeSpinner;
     private String rLot;
+    private String spotNum;
 
     private  AppInfo appInfo;
 
@@ -59,7 +61,7 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
                 int cursorB = 0;
                 while(result.charAt(cursorB)!='!'){cursorB++;}
 
-                String spotNum = result.substring(0, cursorB);
+                spotNum = result.substring(0, cursorB);
                 appInfo.setSpot(spotNum);
 
                 Calendar cal = Calendar.getInstance();
@@ -86,6 +88,14 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
         }
 
         packetCounter++;
+    }
+
+    public void onCamPress(View v){
+        Intent intent = new Intent(this, CameraActivity.class);
+        intent.putExtra("nextClass", "report");
+        intent.putExtra("lotid", rLot);
+        intent.putExtra("spotid", spotNum);
+        startActivity(intent);
     }
 
     @Override

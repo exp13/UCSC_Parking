@@ -28,6 +28,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private Button saveButton;
     private TextView camT;
     private TextView licenseT;
+    private String next;
+    private boolean cancelGoBack;
+
 
     private Intent nextClass;
 
@@ -47,6 +50,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         saveText.setVisibility(View.GONE);
         saveButton.setVisibility(View.GONE);
+
+        Button cancelButton = (Button) findViewById(R.id.cancelBut);
+        next = this.getIntent().getStringExtra("nextClass");
+
+        if(next.contains("report")){
+            cancelGoBack = true;
+        }else{
+            cancelGoBack = false;
+        }
+
+        if(next.contains("MainMenu")) {
+            cancelButton.setVisibility(View.GONE);
+        }
 
         firstPic = true;
 
@@ -123,24 +139,45 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     public void onSaveClick(View v) {
         //For spencer!
-        if(this.getIntent().getStringExtra("nextClass").contains("MainMenu")){
-            nextClass = new Intent(this, MainMenu.class);
-        }else{
-            nextClass = new Intent(this, AccountPrefs.class);
-        }
 
         Map<String, String> aMap = new HashMap<>();
-        aMap.put("func", "SavePlate");
-        aMap.put("userid", appInfo.getEmail());
+
+        if(next.contains("MainMenu")) {
+            nextClass = new Intent(this, MainMenu.class);
+            aMap.put("func", "SavePlate");
+            aMap.put("userid", appInfo.getEmail());
+        }else if(next.contains("report")){
+
+            aMap.put("func", "ReportPlate");
+            aMap.put("lotid", this.getIntent().getStringExtra("lotid"));
+            aMap.put("spotid", this.getIntent().getStringExtra("spotid"));
+            nextClass = new Intent(this, FindSpot.class);
+            nextClass.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }else{
+            nextClass = new Intent(this, AccountPrefs.class);
+            aMap.put("func", "SavePlate");
+            aMap.put("userid", appInfo.getEmail());
+        }
+
         aMap.put("plate", licenseT.getText().toString());
         new ServletPostAsyncTask(this).execute(aMap);
 
     }
 
+    public void onCancelClick(View v) {
+        if(cancelGoBack){
+            super.onBackPressed();
+        }else {
+            Intent intent = new Intent(this, this.getIntent().getClass());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void processFinish(String result){
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        startActivity(nextClass);
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+            startActivity(nextClass);
     }
 
     @Override
