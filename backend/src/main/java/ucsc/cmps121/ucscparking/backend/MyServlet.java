@@ -328,21 +328,29 @@ public class MyServlet extends HttpServlet {
             private LotSpot updateSpot(LotSpot s){
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeZone(TimeZone.getTimeZone("PST"));
-                if(!s.spotFull){
-                    int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+                if(s.spotFull){
                     int currentHour = cal.get(Calendar.HOUR_OF_DAY);
                     int currentMin = cal.get(Calendar.MINUTE);
-                    boolean overHours = false;
+                    int currentDate = cal.get(Calendar.DAY_OF_MONTH);
+
+                    int outHour = currentHour+s.durationH;
+                    int outMin = currentMin+s.durationM;
+                    if(outMin > 59){
+                        outMin -= 60;
+                        outHour ++;
+                        if(outHour>23){outHour=0;}
+                    }
+                    String oH = Integer.toString(outHour);
+                    String oM = Integer.toString(outMin);
+
+                    if(outHour<10){oH = "0"+oH;}
+                    if(outMin<10){oM = "0"+oM;}
 
                     Time checkIn = Time.valueOf(s.checkInTime+":00");
-
-                    // check if past checkin day or past hour duration
-                    if(currentDay>s.checkInDate ||
-                            currentHour> (checkIn.getHours()+s.durationH) )
-                    {overHours = true;}
+                    Time checkOut = Time.valueOf(oH+":"+oM+":00");
 
                     // if past hour duration check past minute duration and clear if true
-                    if(overHours && currentMin>(checkIn.getMinutes()+s.durationM) ){
+                    if(currentDate>s.checkInDate || checkOut.after(checkIn)){
                         s.spotFull = false;
                         s.spotUser = "none";
                         s.checkInTime = "00:00";
