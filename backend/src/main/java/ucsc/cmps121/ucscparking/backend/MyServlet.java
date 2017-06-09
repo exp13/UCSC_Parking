@@ -7,7 +7,6 @@
 package ucsc.cmps121.ucscparking.backend;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,15 +16,11 @@ import java.util.TimeZone;
 
 import javax.servlet.http.*;
 
-import com.google.appengine.repackaged.com.google.common.base.Flag;
-import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import static com.googlecode.objectify.ObjectifyService.ofy;
-import static com.googlecode.objectify.ObjectifyService.run;
 
 public class MyServlet extends HttpServlet {
 

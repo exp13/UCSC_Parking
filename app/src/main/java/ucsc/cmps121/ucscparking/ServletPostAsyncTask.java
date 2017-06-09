@@ -1,9 +1,6 @@
 package ucsc.cmps121.ucscparking;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Pair;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

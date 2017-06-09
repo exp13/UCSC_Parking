@@ -58,7 +58,8 @@
         <activity android:name=".FindSpot" />
         <activity android:name=".ConfirmSpot" />
         <activity android:name=".CheckIn" />
-        <activity android:name=".CheckOut"></activity>
+        <activity android:name=".CheckOut" />
+        <activity android:name=".ManualSelect"></activity>
     </application>
 
 </manifest>

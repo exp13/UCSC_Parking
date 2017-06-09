@@ -42,6 +42,7 @@ public class ConfirmSpot extends AppCompatActivity {
     public void onButPress(View v){
         if(proceed){
             Intent intent = new Intent(this, CheckIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("lot_name", lotResult);
             startActivity(intent);
         }else{
