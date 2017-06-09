@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/redwood1"
     tools:context="ucsc.cmps121.ucscparking.ConfirmSpot">
 
     <TextView
+        android:fontFamily="monospace"
         android:id="@+id/lotMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,6 +23,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:fontFamily="monospace"
+        android:background="@drawable/menu"
         android:id="@+id/finishBut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,8 +49,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="128dp"
         android:text="TextView"
-        android:textAlignment="textStart"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAppearance="@android:style/TextAppearance.Material.Menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lotMsg" />

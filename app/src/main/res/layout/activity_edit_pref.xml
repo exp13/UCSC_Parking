@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sky"
+    android:background="@drawable/redwood1"
     tools:context="ucsc.cmps121.ucscparking.EditPref">
 
     <TextView
+        android:fontFamily="monospace"
         android:id="@+id/editScText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
+        android:fontFamily="monospace"
         android:id="@+id/editTimeSpinner"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -41,6 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editSchNameView" />
 
     <Spinner
+        android:fontFamily="monospace"
         android:id="@+id/editLot1Spinner"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -73,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
+        android:fontFamily="monospace"
         android:id="@+id/editLot3Spinner"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -107,6 +111,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editScText" />
 
     <TextView
+        android:fontFamily="monospace"
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -138,6 +143,7 @@
         android:layout_marginEnd="8dp" />
 
     <TextView
+        android:fontFamily="monospace"
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -155,6 +161,8 @@
 
     <Button
         android:id="@+id/editDelB"
+        android:fontFamily="monospace"
+        android:background="@drawable/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -169,6 +177,8 @@
         app:layout_constraintTop_toBottomOf="@+id/editLot3Spinner" />
 
     <Button
+        android:fontFamily="monospace"
+        android:background="@drawable/menu"
         android:id="@+id/editSaveB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
