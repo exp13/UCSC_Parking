@@ -80,6 +80,7 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
             case 1:
                 if(result.contains("CheckIn")){
                     Intent intent = new Intent(this, CheckOut.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 else {

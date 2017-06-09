@@ -1,7 +1,5 @@
 package ucsc.cmps121.ucscparking.backend;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 
 /**
  * Created by switkin on 6/1/2017.

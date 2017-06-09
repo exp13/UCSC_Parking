@@ -292,9 +292,14 @@ public class FindSpot extends AppCompatActivity implements ServletPostAsyncTask.
     }
 
     public void onSearchClick(View v){
-        Intent intent = new Intent(this, ConfirmSpot.class);
-        intent.putExtra("lot_name", "none");
-        intent.putExtra("spot_count", "0");
+        Intent intent = new Intent(this, ManualSelect.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

@@ -130,7 +130,15 @@ public class EditPref extends AppCompatActivity implements ServletPostAsyncTask.
 
         if(result.contains("Saved") || result.contains("Deleted")){
             Intent intent = new Intent(this, PreferredLots.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, PreferredLots.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

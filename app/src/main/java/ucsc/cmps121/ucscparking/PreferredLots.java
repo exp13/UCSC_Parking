@@ -190,4 +190,11 @@ public class PreferredLots extends AppCompatActivity implements ServletPostAsync
         prefAdap.notifyDataSetChanged();
 
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, AccountPrefs.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

@@ -14,24 +14,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MapList extends AppCompatActivity {
-
-    public void goMapView(View v){
-        Intent intent = new Intent(this, ParkingMapView.class);
-        startActivity(intent);
-    }
+public class ManualSelect extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse{
 
     private ArrayList<MapsElement> mapsList;
     private MapsAdapter mapAdap;
+    private Intent next;
+    private String lot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_list);
+        setContentView(R.layout.activity_manual_select);
 
-        ListView myList = (ListView) findViewById(R.id.parkMapList);
+        ListView myList = (ListView) findViewById(R.id.manList);
         mapsList = new ArrayList<MapsElement>();
         mapAdap = new MapsAdapter(this, R.layout.map_list_row, mapsList);
         myList.setAdapter(mapAdap);
@@ -41,11 +40,17 @@ public class MapList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MapsElement ele = mapsList.get(position);
-                Intent intent = ele.intent;
-                startActivity(intent);
+                Map<String, String> aMap = new HashMap<>();
+
+                aMap.put("func", "GetParkingLot");
+                aMap.put("lotid", ele.title);
+                next = ele.intent;
+                lot = ele.title;
+
+                exTask(aMap);
             }
         });
-
+        
         /*
             ADD NEW LIST ITEMS HERE (order matters)
          */
@@ -53,96 +58,118 @@ public class MapList extends AppCompatActivity {
 
         // Copy this block and change for new list item
         ele = new MapsElement();
-        ele.title = "North Remote Lot";
+        ele.title = "North Remote";
         ele.subtitle = "next to Baskin";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "West Remote Lot";
+        ele.title = "West Remote";
         ele.subtitle = "west side story";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "East Remote Lot";
+        ele.title = "East Remote";
         ele.subtitle = "east bound and down";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "Core West Lot";
+        ele.title = "Core West";
         ele.subtitle = "now with less free parking";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "Performing Arts Lot";
+        ele.title = "Performing Arts";
         ele.subtitle = "The DARCness";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "Hahn Student Services";
+        ele.title = "Hahn Building";
         ele.subtitle = "Financial Aid";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Stevenson College";
         ele.subtitle = "Lot 109";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Merrill College";
         ele.subtitle = "Lot 119";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "College 10";
         ele.subtitle = "Lot 165";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "Baskin Engineering";
+        ele.title = "Baskin 1";
         ele.subtitle = "Lot 138";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
-        ele.title = "Baskin Engineering II";
+        ele.title = "Baskin 2";
         ele.subtitle = "Lot 139A";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Kresge College";
         ele.subtitle = "Lot 143";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Porter College";
         ele.subtitle = "Lot 125";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Rachel Carson College";
         ele.subtitle = "Lot 146";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Oakes College";
         ele.subtitle = "Lot 162";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, ConfirmSpot.class);
         mapsList.add(ele);
 
         mapAdap.notifyDataSetChanged();
+    }
+
+    private void exTask(Map<String, String> aMap){
+        new ServletPostAsyncTask(this).execute(aMap);
+    }
+
+    @Override
+    public void processFinish(String result){
+        int cursorB = 0;
+        while(result.charAt(cursorB)!='!'){cursorB++;}
+
+        int spot = Integer.parseInt(result.substring(0, cursorB));
+        if(spot == 0){
+            next.putExtra("lot_name", "none");
+            next.putExtra("spot_count", "0");
+        }else{
+            next.putExtra("lot_name", lot);
+            next.putExtra("spot_count", Integer.toString(spot));
+        }
+
+        startActivity(next);
+
     }
 
     public class MapsElement{
@@ -191,12 +218,5 @@ public class MapList extends AppCompatActivity {
 
             return newView;
         }
-    }
-
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this, MainMenu.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 }

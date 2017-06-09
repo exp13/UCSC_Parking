@@ -113,7 +113,15 @@ public class AddPref extends AppCompatActivity implements ServletPostAsyncTask.A
 
         if(result.contains("Added pref")){
             Intent intent = new Intent(this, PreferredLots.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, PreferredLots.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

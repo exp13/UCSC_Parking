@@ -128,4 +128,9 @@ public class NewUser extends AppCompatActivity implements ServletPostAsyncTask.A
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onBackPressed(){
+
+    }
 }
