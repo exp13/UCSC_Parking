@@ -4,6 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B5E7ED"
     tools:context="ucsc.cmps121.ucscparking.CameraActivity">
 
+    <Button
+        android:id="@+id/camBut"
+        android:background="@drawable/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Camera"
+        android:fontFamily="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camText" />
+
+    <TextView
+        android:id="@+id/camText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="monospace"
+        android:text="Press the camera button to scan your liscense plate."
+        android:textColor="#000000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/licenseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="-------"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="#000000"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/camBut"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camText" />
+
+    <TextView
+        android:id="@+id/saveConfirmText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:text="Press save to confirm."
+        android:textColor="#000000"
+        android:fontFamily="monospace"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camBut" />
+
+    <Button
+        android:id="@+id/saveBut"
+        android:background="@drawable/menu"
+        android:fontFamily="monospace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onSaveClick"
+        android:text="Save"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveConfirmText"
+        app:layout_constraintVertical_bias="0.493"
+        app:layout_constraintBottom_toTopOf="@+id/cancelBut" />
+
+    <Button
+        android:id="@+id/cancelBut"
+        android:background="@drawable/menu"
+        android:fontFamily="monospace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="onCancelClick"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

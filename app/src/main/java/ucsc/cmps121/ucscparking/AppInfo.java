@@ -13,20 +13,56 @@ public class AppInfo {
 
     private Context my_context;
 
-    protected AppInfo() {
+    private String userEmail;
+    private String spot;
+    private String lot;
+    private SharedPreferences settings;
 
+
+    protected AppInfo() {
+        spot = "none";
+        lot = "none";
     }
 
     public static AppInfo getInstance(Context context) {
         if(instance == null) {
             instance = new AppInfo();
             instance.my_context = context;
-            SharedPreferences settings = context.getSharedPreferences("UCSCParking", 0);
+            instance.settings = context.getSharedPreferences("UCSCParking", 0);
         }
+
         return instance;
     }
 
+    public void setSpot(String s){
+        SharedPreferences.Editor editor = settings.edit();
+        spot = s;
+        editor.putString("spotid", s);
+        editor.commit();
+    }
 
+    public String getSpot(){
+        return settings.getString("spotid", "ERR");
+    }
+
+    public void setLot(String s){
+        SharedPreferences.Editor editor = settings.edit();
+        lot = s;
+        editor.putString("lotid", s);
+        editor.commit();
+    }
+
+    public String getLot(){
+        return settings.getString("lotid", "ERR");
+    }
+
+    public void setEmail(String e){
+        userEmail = e;
+    }
+
+    public String getEmail(){
+        return userEmail;
+    }
 
 
     // set string method for shared strings

@@ -13,15 +13,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.security.AccessController.getContext;
 
-public class AccountPrefs extends AppCompatActivity {
+public class AccountPrefs extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private ArrayList<PrefsElement> prefList;
     private PrefsAdapter prefAdap;
+    private GoogleApiClient mGoogleApiClient;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,58 @@ public class AccountPrefs extends AppCompatActivity {
         ele.intent = new Intent(this, PaymentHistory.class);
         prefList.add(ele);
 
+        ele = new PrefsElement();
+        ele.title = "Edit license plate";
+        ele.subtitle = "With OCR!";
+        ele.intent = new Intent(this, CameraActivity.class);
+        ele.intent.putExtra("nextClass", "Acc");
+        prefList.add(ele);
+
         prefAdap.notifyDataSetChanged();
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */,  this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+    }
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        sign_out(findViewById(R.id.button2));
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result){
+
+    }
+    public void sign_out(View v) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+
+                        @Override
+                        public void onResult(Status status) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    });
+        }else{
+
+            mGoogleApiClient.connect();
+        }
     }
 
     private class PrefsElement{
@@ -116,6 +175,12 @@ public class AccountPrefs extends AppCompatActivity {
 
             return newView;
         }
+    }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

@@ -3,6 +3,7 @@
     package="ucsc.cmps121.ucscparking">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -10,9 +11,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:launchMode="singleTop"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -22,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddPref"
+            android:label="Add Pref" />
         <activity
             android:name=".MainMenu"
             android:label="Menu" />
@@ -45,7 +50,17 @@
             android:label="Parking Map" />
         <activity
             android:name=".CameraActivity"
-            android:label="Camera Test"></activity>
+            android:label="Camera Test" />
+        <activity android:name=".NewUser" />
+        <activity android:name=".EditPref" />
+        <activity android:name=".OcrCaptureActivity" />
+        <activity android:name=".SpotList" />
+        <activity android:name=".FindSpot" />
+        <activity android:name=".ConfirmSpot" />
+        <activity android:name=".CheckIn" />
+        <activity android:name=".CheckOut" />
+        <activity android:name=".ManualSelect" />
+        <activity android:name=".LotMapView"></activity>
     </application>
 
 </manifest>

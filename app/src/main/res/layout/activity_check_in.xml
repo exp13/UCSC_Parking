@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ucsc.cmps121.ucscparking.CheckIn">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:scaleType="fitCenter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/parking"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/spotMsg"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:fontFamily="monospace"
+        android:id="@+id/checkInMsg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginStart="8dp"
+        android:text="Choose a duration and Check In. Camera to report occupied spot."
+        app:layout_constraintBottom_toTopOf="@+id/checkInBut"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintLeft_toRightOf="@+id/timeSpinner"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:fontFamily="monospace"
+        android:background="@drawable/menu"
+        android:id="@+id/checkInBut"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="onCheckInPressed"
+        android:text="Check In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/reportBut" />
+
+    <ImageButton
+        android:id="@+id/reportBut"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onCamPress"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkInMsg"
+        app:srcCompat="@drawable/camera" />
+
+    <TextView
+        android:fontFamily="monospace"
+        android:id="@+id/spotMsg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Spot x is reserved until 00:00"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/checkInMsg"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <Spinner
+        android:fontFamily="monospace"
+        android:id="@+id/timeSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@+id/checkInBut"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spotMsg"
+        app:layout_constraintVertical_bias="0.0" />
+</android.support.constraint.ConstraintLayout>

@@ -2,12 +2,18 @@ package ucsc.cmps121.ucscparking;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,14 +30,47 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements ServletPostAsyncTask.AsyncResponse, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private GoogleApiClient mGoogleApiClient;
+
+    private final Context context = this;
+    private AppInfo appInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        appInfo = AppInfo.getInstance(this);
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */,  this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        //Toast.makeText(this, appInfo.getEmail(), Toast.LENGTH_LONG).show();
+        // Test code for backend
+        TextView email = (TextView)findViewById(R.id.textView6);
+        email.setText(appInfo.getEmail());
+
+        TextView spotBut = (TextView) findViewById(R.id.findSpotBut);
+
+        if(appInfo.getLot().contains("none")) {
+            spotBut.setText("Find a spot");
+        }
+        else {
+            spotBut.setText("Check Out");
+        }
+
     }
 
     public void goAccountPrefs(View v){
@@ -44,82 +83,61 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goCamera(View v) {
-        Intent intent = new Intent(this, CameraActivity.class);
-        startActivity(intent);
+    public void goFindSpot(View v) {
+        if(appInfo.getLot().contains("none")) {
+            Intent intent = new Intent(this, FindSpot.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, CheckOut.class);
+            startActivity(intent);
+        }
+
     }
 
-    class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        private Context context;
+    @Override
+    public void processFinish(String result){
+        /*if(result == "false"){
+            Intent intent = new Intent(this, PreferredLots.class);
+            startActivity(intent);
+        }*/
+        Toast.makeText(this,"heloooooooooooo" , Toast.LENGTH_LONG);
+    }
 
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            context = params[0].first;
-            String name = params[0].second;
+    public void sign_out(View v) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
 
-            try {
-                // Set up the request
-                URL url = new URL("http://ucscparking-1.appspot.com/hello");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
+                        @Override
+                        public void onResult(Status status) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+        }else{
 
-                // Build name data request params
-                Map<String, String> nameValuePairs = new HashMap<>();
-                nameValuePairs.put("name", name);
-                String postParams = buildPostDataString(nameValuePairs);
-
-                // Execute HTTP Post
-                OutputStream outputStream = connection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                writer.write(postParams);
-                writer.flush();
-                writer.close();
-                outputStream.close();
-                connection.connect();
-
-                // Read response
-                int responseCode = connection.getResponseCode();
-                StringBuilder response = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-                reader.close();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    return response.toString();
-                }
-                return "Error: " + responseCode + " " + connection.getResponseMessage();
-
-            } catch (IOException e) {
-                return e.getMessage();
-            }
+            mGoogleApiClient.connect();
         }
+    }
 
-        private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                if (first) {
-                    first = false;
-                } else {
-                    result.append("&");
-                }
+    @Override
+    public void onConnected(Bundle connectionHint) {
 
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
+    }
 
-            return result.toString();
-        }
+    @Override
+    public void onConnectionSuspended(int cause) {
 
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result){
+
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }
