@@ -8,15 +8,15 @@
     tools:context="ucsc.cmps121.ucscparking.ConfirmSpot">
 
     <TextView
-        android:fontFamily="monospace"
         android:id="@+id/lotMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="172dp"
+        android:fontFamily="monospace"
         android:text="TextView"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -43,14 +43,15 @@
 
     <TextView
         android:id="@+id/butMsg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="128dp"
         android:text="TextView"
         android:textAppearance="@android:style/TextAppearance.Material.Menu"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lotMsg" />
+        app:layout_constraintTop_toBottomOf="@+id/lotMsg"
+        app:layout_constraintHorizontal_bias="0.473" />
 </android.support.constraint.ConstraintLayout>
