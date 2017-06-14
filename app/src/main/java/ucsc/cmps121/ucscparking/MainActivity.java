@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
                         @Override
                         public void onResult(Status status) {
-                            Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context, status.getStatusMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         }else{
