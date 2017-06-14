@@ -8,6 +8,7 @@
 
     <ImageView
         android:id="@+id/imageView"
+        android:scaleType="fitCenter"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:srcCompat="@drawable/parking"

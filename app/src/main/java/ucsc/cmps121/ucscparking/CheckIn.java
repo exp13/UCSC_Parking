@@ -52,6 +52,7 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
         lotIndex.add(14, "College 10");
         lotIndex.add(15, "Hahn Building");
 
+        rLot = this.getIntent().getStringExtra("lot_name");
         loadImage();
 
         appInfo = AppInfo.getInstance(this);
@@ -60,7 +61,6 @@ public class CheckIn extends AppCompatActivity implements ServletPostAsyncTask.A
         spotMsg = (TextView) findViewById(R.id.spotMsg);
         checkMsg = (TextView) findViewById(R.id.checkInMsg);
         timeSpinner = (Spinner) findViewById(R.id.timeSpinner);
-        rLot = this.getIntent().getStringExtra("lot_name");
 
         String[] items = new String[] {"Time...",
                 "30 min", "45 min", "1 hour", "1.25 hours",

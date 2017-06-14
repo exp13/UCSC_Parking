@@ -59,7 +59,8 @@
         <activity android:name=".ConfirmSpot" />
         <activity android:name=".CheckIn" />
         <activity android:name=".CheckOut" />
-        <activity android:name=".ManualSelect"></activity>
+        <activity android:name=".ManualSelect" />
+        <activity android:name=".LotMapView"></activity>
     </application>
 
 </manifest>

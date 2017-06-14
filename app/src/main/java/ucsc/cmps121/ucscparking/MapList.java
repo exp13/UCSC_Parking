@@ -55,91 +55,106 @@ public class MapList extends AppCompatActivity {
         ele = new MapsElement();
         ele.title = "North Remote Lot";
         ele.subtitle = "next to Baskin";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "North Remote");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "West Remote Lot";
         ele.subtitle = "west side story";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "West Remote");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "East Remote Lot";
         ele.subtitle = "east bound and down";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "East Remote");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Core West Lot";
         ele.subtitle = "now with less free parking";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Core West");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Performing Arts Lot";
         ele.subtitle = "The DARCness";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Performing Arts");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Hahn Student Services";
         ele.subtitle = "Financial Aid";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Hahn Building");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Stevenson College";
         ele.subtitle = "Lot 109";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Stevenson College");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Merrill College";
         ele.subtitle = "Lot 119";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Merrill College");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "College 10";
         ele.subtitle = "Lot 165";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "College 10");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Baskin Engineering";
         ele.subtitle = "Lot 138";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Baskin 1");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Baskin Engineering II";
         ele.subtitle = "Lot 139A";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Baskin 2");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Kresge College";
         ele.subtitle = "Lot 143";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Kresge College");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Porter College";
         ele.subtitle = "Lot 125";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Porter College");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Rachel Carson College";
         ele.subtitle = "Lot 146";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Rachel Carson College");
         mapsList.add(ele);
 
         ele = new MapsElement();
         ele.title = "Oakes College";
         ele.subtitle = "Lot 162";
-        ele.intent = new Intent(this, MapList.class);
+        ele.intent = new Intent(this, LotMapView.class);
+        ele.intent.putExtra("lot_name", "Oakes College");
         mapsList.add(ele);
 
         mapAdap.notifyDataSetChanged();
