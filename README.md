@@ -1,8 +1,6 @@
 # UCSC_Parking
 
 
-To Luca,
+An Android app for parking check-in at UCSC.
 
-If you would like to run the app please install the included apk "UCSC_Parking-release.apk". As you are aware, if you try to build the app from our project it will sign with the wrong debug key and you will not be able to log in to the Google api.
-
-Thanks!
+Made as a hypothetical solution to improving the parking system for the Mobile Applications class.
